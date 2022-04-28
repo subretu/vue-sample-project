@@ -1,13 +1,13 @@
 <template>
-  <UserList />
+  <TopPage />
 </template>
 
 <script lang="ts">
-import UserList from "../components/UserList.vue";
+import TopPage from "../components/TopPage.vue";
 
 export default {
   components: {
-    UserList,
+    TopPage,
   },
 };
 </script>

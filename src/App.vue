@@ -39,7 +39,7 @@
       >
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text to="/enterprise">For Enterprise</v-btn>
+        <v-btn text to="/userlist">USERLIST</v-btn>
         <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn v-on="on" text>Support<v-icon>mdi-menu-down</v-icon></v-btn>
