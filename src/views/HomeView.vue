@@ -1,16 +1,13 @@
 <template>
-  <hello-world />
+  <UserList />
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import HelloWorld from "../components/HelloWorld.vue";
+import UserList from "../components/UserList.vue";
 
-export default Vue.extend({
-  name: "Home-item",
-
+export default {
   components: {
-    HelloWorld,
+    UserList,
   },
-});
+};
 </script>
