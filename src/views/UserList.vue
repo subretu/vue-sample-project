@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="10">
+        <h3>UserList</h3>
         <v-data-table :headers="headers" :items="items"></v-data-table>
       </v-col>
     </v-row>
@@ -39,6 +40,21 @@ export default {
           id: 3,
           name: "山田太郎",
           age: 10,
+        },
+        {
+          id: 4,
+          name: "山崎イチゴ",
+          age: 12,
+        },
+        {
+          id: 5,
+          name: "山田ニゴ",
+          age: 16,
+        },
+        {
+          id: 6,
+          name: "山本一之進",
+          age: 12,
         },
       ],
     };
