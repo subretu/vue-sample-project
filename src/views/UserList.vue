@@ -2,8 +2,10 @@
   <v-container>
     <v-row>
       <v-col cols="10">
-        <h3>UserList</h3>
-        <v-data-table :headers="headers" :items="items"></v-data-table>
+        <v-sheet color="white" elevation="1">
+          <h3>UserList</h3>
+          <v-data-table :headers="headers" :items="items"></v-data-table>
+        </v-sheet>
       </v-col>
     </v-row>
   </v-container>
