@@ -23,7 +23,10 @@ export default {
           text: "名前",
           value: "name",
         },
-        { text: "年齢", value: "age" },
+        {
+          text: "年齢",
+          value: "age",
+        },
       ],
       items: [
         {
