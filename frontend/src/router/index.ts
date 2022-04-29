@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     name: "tasklist",
     component: () => import("../views/TaskList.vue"),
   },
+  {
+    path: "/axiostest",
+    name: "axiostest",
+    component: () => import("../views/AxiosTest.vue"),
+  },
 ];
 
 const router = new VueRouter({
