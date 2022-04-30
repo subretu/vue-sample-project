@@ -1,7 +1,14 @@
 <template>
-  <div class="hello">
-    <h1>{{ message }}</h1>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col cols="10">
+        <v-sheet color="white" elevation="1">
+          <h3>AAxiosTest</h3>
+          <v-data-table :headers="headers" :items="items"></v-data-table>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -11,12 +18,16 @@ export default {
   components: {},
   data() {
     return {
-      message: "",
+      headers: [
+        { text: "日付", value: "label" },
+        { text: "値", value: "data" },
+      ],
+      items: [],
     };
   },
   mounted() {
     this.get_day().then((response) => {
-      this.message = response.data.label;
+      this.items = response.data;
     });
   },
   methods: {
