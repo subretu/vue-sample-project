@@ -1,4 +1,3 @@
-from urllib import response
 from starlette.requests import Request
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
@@ -18,13 +17,9 @@ def get_day(request: Request):
     cur = conn.cursor()
     result_data_day = get_date_summary(cur)
 
-    labels1, values1 = [], []
-
     response_data = []
 
     for item1, item2 in result_data_day:
-        labels1.append(item1.strftime("%Y-%m-%d"))
-        values1.append(item2)
         response_data.append({"label": item1.strftime("%Y-%m-%d"), "data": item2})
 
     cur.close()
