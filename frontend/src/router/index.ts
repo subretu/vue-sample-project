@@ -25,6 +25,11 @@ const routes: Array<RouteConfig> = [
     name: "axiostest",
     component: () => import("../views/AxiosTest.vue"),
   },
+  {
+    path: "/chartsample",
+    name: "chartsample",
+    component: () => import("../views/ChartSample.vue"),
+  },
 ];
 
 const router = new VueRouter({

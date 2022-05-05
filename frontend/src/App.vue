@@ -6,6 +6,7 @@
           <v-tab to="/userlist">USERLIST</v-tab>
           <v-tab to="/tasklist">TASKLIST</v-tab>
           <v-tab to="/axiostest">AXIOSTEST</v-tab>
+          <v-tab to="/chartsample">CHARTSAMPLE</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
