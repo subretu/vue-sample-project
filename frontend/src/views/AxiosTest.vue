@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h3>AAxiosTest</h3>
+    <h3>AxiosTest</h3>
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
