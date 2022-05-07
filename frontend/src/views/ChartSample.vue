@@ -14,6 +14,7 @@
 
 <script>
 import LineChart from "../components/LineChart";
+import SampleApiService from "@/services/SampleApiService";
 
 export default {
   components: {
@@ -30,13 +31,22 @@ export default {
   },
   methods: {
     fillData() {
+      let labelsList = [];
+      let dataList = [];
+      this.get_day().then((response) => {
+        this.items = response.data;
+        for (const elem of this.items) {
+          labelsList.push(elem["label"]);
+          dataList.push(elem["data"]);
+        }
+      });
       (this.datacollection = {
-        labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: labelsList,
         datasets: [
           {
             label: "sample",
             borderColor: "#0000ff",
-            data: [100, 90, 60, 70, 50, 30, 40, 50, 60, 100],
+            data: dataList,
             fill: false,
           },
         ],
@@ -49,9 +59,12 @@ export default {
             text: "Line chart",
           },
           legend: {
-            display: true,
+            display: false,
           },
         });
+    },
+    get_day() {
+      return SampleApiService.get();
     },
   },
 };
