@@ -38,29 +38,29 @@ export default {
         for (const elem of this.items) {
           labelsList.push(elem["label"]);
           dataList.push(elem["data"]);
-          (this.datacollection = {
-            labels: labelsList,
-            datasets: [
-              {
-                label: "sample",
-                borderColor: "#0000ff",
-                data: dataList,
-                fill: false,
-              },
-            ],
-          }),
-            (this.options = {
-              responsive: true,
-              maintainAspectRatio: false,
-              title: {
-                display: true,
-                text: "Line chart",
-              },
-              legend: {
-                display: true,
-              },
-            });
         }
+        (this.datacollection = {
+          labels: labelsList,
+          datasets: [
+            {
+              label: "sample",
+              borderColor: "#0000ff",
+              data: dataList,
+              fill: false,
+            },
+          ],
+        }),
+          (this.options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+              display: true,
+              text: "Line chart",
+            },
+            legend: {
+              display: true,
+            },
+          });
       });
     },
   },
