@@ -39,7 +39,7 @@ export default {
           labelsList.push(elem["label"]);
           dataList.push(elem["data"]);
         }
-        (this.datacollection = {
+        this.datacollection = {
           labels: labelsList,
           datasets: [
             {
@@ -49,18 +49,18 @@ export default {
               fill: false,
             },
           ],
-        }),
-          (this.options = {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-              display: true,
-              text: "Line chart",
-            },
-            legend: {
-              display: true,
-            },
-          });
+        };
+        this.options = {
+          responsive: true,
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: "Line chart",
+          },
+          legend: {
+            display: true,
+          },
+        };
       });
     },
   },
