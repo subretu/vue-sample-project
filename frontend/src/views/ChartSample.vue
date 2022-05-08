@@ -3,10 +3,7 @@
     <h3>ChartSample</h3>
     <v-row>
       <v-col cols="10">
-        <line-chart
-          :chart-data="datacollection"
-          :options="options"
-        ></line-chart>
+        <line-chart :chart-data="datacollection" :options="options" />
       </v-col>
     </v-row>
   </v-container>
@@ -22,14 +19,17 @@ export default {
   },
   data() {
     return {
-      datacollection: null,
-      options: null,
+      datacollection: {},
+      options: {},
     };
   },
-  mounted() {
+  async mounted() {
     this.fillData();
   },
   methods: {
+    get_day() {
+      return SampleApiService.get();
+    },
     fillData() {
       let labelsList = [];
       let dataList = [];
@@ -38,33 +38,30 @@ export default {
         for (const elem of this.items) {
           labelsList.push(elem["label"]);
           dataList.push(elem["data"]);
+          (this.datacollection = {
+            labels: labelsList,
+            datasets: [
+              {
+                label: "sample",
+                borderColor: "#0000ff",
+                data: dataList,
+                fill: false,
+              },
+            ],
+          }),
+            (this.options = {
+              responsive: true,
+              maintainAspectRatio: false,
+              title: {
+                display: true,
+                text: "Line chart",
+              },
+              legend: {
+                display: true,
+              },
+            });
         }
       });
-      (this.datacollection = {
-        labels: labelsList,
-        datasets: [
-          {
-            label: "sample",
-            borderColor: "#0000ff",
-            data: dataList,
-            fill: false,
-          },
-        ],
-      }),
-        (this.options = {
-          responsive: true,
-          maintainAspectRatio: false,
-          title: {
-            display: true,
-            text: "Line chart",
-          },
-          legend: {
-            display: false,
-          },
-        });
-    },
-    get_day() {
-      return SampleApiService.get();
     },
   },
 };
