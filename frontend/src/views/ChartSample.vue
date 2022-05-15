@@ -2,8 +2,17 @@
   <v-container>
     <h3>ChartSample</h3>
     <v-row>
-      <v-col cols="10">
+      <v-col cols="6">
         <line-chart :chart-data="datacollection" :options="options" />
+      </v-col>
+      <v-col cols="6">
+        <bar-chart :chart-data="datacollection" :options="options" />
+      </v-col>
+      <v-col cols="6">
+        <line-chart :chart-data="datacollection" :options="options" />
+      </v-col>
+      <v-col cols="6">
+        <bar-chart :chart-data="datacollection" :options="options" />
       </v-col>
     </v-row>
   </v-container>
@@ -11,11 +20,13 @@
 
 <script>
 import LineChart from "../components/LineChart";
+import BarChart from "../components/BarChart";
 import SampleApiService from "@/services/SampleApiService";
 
 export default {
   components: {
     LineChart,
+    BarChart,
   },
   data() {
     return {
