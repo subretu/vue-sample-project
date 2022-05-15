@@ -2,16 +2,16 @@
   <v-container>
     <h3>ChartSample</h3>
     <v-row>
-      <v-col cols="12" sm="12" md="6" lg="6">
+      <v-col cols="12" sm="12" md="6" lg="4">
         <line-chart :chart-data="datacollection" :options="options" />
       </v-col>
-      <v-col cols="12" sm="12" md="6" lg="6">
+      <v-col cols="12" sm="12" md="6" lg="4">
+        <line-chart :chart-data="datacollection" :options="options" />
+      </v-col>
+      <v-col cols="12" sm="12" md="6" lg="4">
         <bar-chart :chart-data="datacollection" :options="options" />
       </v-col>
-      <v-col cols="12" sm="12" md="6" lg="6">
-        <line-chart :chart-data="datacollection" :options="options" />
-      </v-col>
-      <v-col cols="12" sm="12" md="6" lg="6">
+      <v-col cols="12" sm="12" md="6" lg="4">
         <bar-chart :chart-data="datacollection" :options="options" />
       </v-col>
     </v-row>
