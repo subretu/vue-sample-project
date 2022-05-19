@@ -19,8 +19,8 @@ def get_day(request: Request):
 
     response_data = []
 
-    for item1, item2 in result_data_day:
-        response_data.append({"label": item1.strftime("%Y-%m-%d"), "data": item2})
+    for item, item1, item2 in result_data_day:
+        response_data.append({"id": item, "label": item1.strftime("%Y-%m-%d"), "data": item2})
 
     cur.close()
     conn.close()
