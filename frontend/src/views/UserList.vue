@@ -7,7 +7,7 @@
           <v-data-table :headers="headers" :items="items">
             <template v-slot:[`item.actions`]="{ item }">
               <v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-              <v-icon @click="onClickDelete"> mdi-delete </v-icon>
+              <v-icon @click="onClickDelete(item)"> mdi-delete </v-icon>
             </template>
           </v-data-table>
         </v-sheet>
