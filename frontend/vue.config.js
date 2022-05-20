@@ -7,6 +7,9 @@ module.exports = defineConfig({
       "/day": {
         target: "http://localhost:8000",
       },
+      "/delete": {
+        target: "http://localhost:8000",
+      },
     },
   },
 });

@@ -4,7 +4,7 @@
     <v-card>
       <v-card-title />
       <v-card-text class="black--text">
-        「{{ item.title }}」を削除しますか？
+        「ID {{ item.id }}」を削除しますか？
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -19,6 +19,7 @@
   </v-dialog>
 </template>
 <script>
+import SampleApiService from "@/services/SampleApiService";
 export default {
   name: "DeleteDialog",
 
@@ -48,7 +49,8 @@ export default {
     },
     /** 削除がクリックされたとき */
     onClickDelete() {
-      // あとで実装
+      SampleApiService.delete(this.item.id);
+      this.show = false;
     },
   },
 };

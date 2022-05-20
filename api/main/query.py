@@ -1,21 +1,12 @@
 def get_date_summary(cur):
     cur.execute(
         """
-        with a1 as(
-            select
-                opstime::date as opsdate
-                ,sum(value) as sum_value
-            from
-                sample_date_summary
-            group by
-                opstime::date
-        )
         select
-            right(opsdate::text,1) as id
+            id
             ,opsdate
             ,sum_value
         from
-            a1
+            sample_date_summary2
         order by
             opsdate
         ;
@@ -63,22 +54,6 @@ def get_date_stack_summary(cur):
     return rows
 
 
-def delete_user(cur):
-    cur.execute(
-        """
-        select
-            opstime::date as opsdate
-            ,sum(value) as sum_value1
-            ,(sum(value)*1.1)::integer as sum_value2
-            ,(sum(value)*0.6)::integer as sum_value3
-        from
-            sample_date_summary
-        group by
-            opstime::date
-        order by
-            opsdate
-        ;
-        """
-    )
-    rows = cur.fetchall()
-    return rows
+def delete_id(conn, cur, id):
+    cur.execute(f"delete from sample_date_summary2 where id = '{id}' ;")
+    conn.commit()

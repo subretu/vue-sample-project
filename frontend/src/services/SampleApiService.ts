@@ -5,6 +5,10 @@ class SampleApiService {
   get(): Promise<any> {
     return http.get("/day");
   }
+
+  delete(id: any): Promise<any> {
+    return http.get(`/delete/${id}`);
+  }
 }
 
 export default new SampleApiService();

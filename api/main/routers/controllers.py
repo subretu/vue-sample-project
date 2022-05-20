@@ -5,6 +5,7 @@ from main.connection import get_connection
 from main.query import (
     get_date_summary,
     get_time_summary,
+    delete_id
 )
 
 
@@ -49,3 +50,13 @@ def get_time(request: Request):
             "data": values1,
         }
     )
+
+
+@router.get("/delete/{id}")
+def detele(request: Request, id):
+    conn = get_connection()
+    cur = conn.cursor()
+    delete_id(conn, cur, id)
+
+    cur.close()
+    conn.close()
