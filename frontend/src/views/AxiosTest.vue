@@ -48,6 +48,7 @@ export default {
       });
       console.log("ok");
     },
+  },
   methods: {
     get_day() {
       return SampleApiService.get();
