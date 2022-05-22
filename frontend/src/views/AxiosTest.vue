@@ -41,6 +41,13 @@ export default {
       this.items = response.data;
     });
   },
+  watch: {
+    items: function () {
+      this.get_day().then((response) => {
+        this.items = response.data;
+      });
+      console.log("ok");
+    },
   methods: {
     get_day() {
       return SampleApiService.get();

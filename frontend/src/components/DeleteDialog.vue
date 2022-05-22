@@ -33,7 +33,6 @@ export default {
       item: {},
     };
   },
-
   methods: {
     /**
      * ダイアログを表示します。
