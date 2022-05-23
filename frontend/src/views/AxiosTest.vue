@@ -71,10 +71,12 @@ export default {
       this.selectData = item;
     },
     deleteData() {
-      SampleApiService.delete(this.selectData.id);
-      this.show = false;
-      this.get_day().then((response) => {
-        this.items = response.data;
+      //SampleApiService.delete(this.selectData.id);
+      SampleApiService.delete(this.selectData.id).then(() => {
+        this.show = false;
+        this.get_day().then((response) => {
+          this.items = response.data;
+        });
       });
     },
   },
