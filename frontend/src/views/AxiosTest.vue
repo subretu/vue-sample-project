@@ -14,17 +14,29 @@
       </v-col>
     </v-row>
     <!-- 削除ダイアログ -->
-    <DeleteDialog ref="deleteDialog" />
+    <v-dialog v-model="show" persistent max-width="290">
+      <v-card>
+        <v-card-title />
+        <v-card-text class="black--text">
+          「ID {{ selectData.id }}」を削除しますか？
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="grey" text :disabled="loading" @click="onClickClose"
+            >キャンセル</v-btn
+          >
+          <v-btn color="red" text :loading="loading" @click="deleteData"
+            >削除</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
 import SampleApiService from "@/services/SampleApiService";
-import DeleteDialog from "../components/DeleteDialog.vue";
 export default {
-  components: {
-    DeleteDialog,
-  },
   data() {
     return {
       headers: [
@@ -34,6 +46,12 @@ export default {
         { text: "操作", value: "actions" },
       ],
       items: [],
+      // ダイアログの表示状態
+      show: false,
+      // ローディング状態
+      loading: false,
+      // 削除データ
+      selectData: "",
     };
   },
   mounted() {
@@ -41,21 +59,23 @@ export default {
       this.items = response.data;
     });
   },
-  watch: {
-    items: function () {
-      this.get_day().then((response) => {
-        this.items = response.data;
-      });
-      console.log("ok");
-    },
-  },
   methods: {
     get_day() {
       return SampleApiService.get();
     },
-    /** 削除ボタンがクリックされたとき */
+    onClickClose() {
+      this.show = false;
+    },
     onClickDelete(item) {
-      this.$refs.deleteDialog.open(item);
+      this.show = true;
+      this.selectData = item;
+    },
+    deleteData() {
+      SampleApiService.delete(this.selectData.id);
+      this.show = false;
+      this.get_day().then((response) => {
+        this.items = response.data;
+      });
     },
   },
 };
