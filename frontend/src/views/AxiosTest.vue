@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-alert type="success" dismissible :value="isAlert">Deleted</v-alert>
     <h3>AAxiosTest</h3>
     <v-row>
       <v-col cols="10">
@@ -52,12 +53,20 @@ export default {
       loading: false,
       // 削除データ
       selectData: "",
+      isAlert: false,
     };
   },
   mounted() {
     this.get_day().then((response) => {
       this.items = response.data;
     });
+  },
+  watch: {
+    isAlert: function () {
+      setTimeout(() => {
+        this.isAlert = false;
+      }, 5000);
+    },
   },
   methods: {
     get_day() {
@@ -77,6 +86,7 @@ export default {
         this.get_day().then((response) => {
           this.items = response.data;
         });
+        this.isAlert = true;
       });
     },
   },
