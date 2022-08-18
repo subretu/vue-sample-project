@@ -9,8 +9,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+      timezone: "Asia/Tokyo"
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "frontend/" # Location of package manifests
     schedule:
       interval: "daily"
+      timezone: "Asia/Tokyo"
