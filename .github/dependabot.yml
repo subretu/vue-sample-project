@@ -8,11 +8,11 @@ updates:
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: "Asia/Tokyo"
 
   - package-ecosystem: "npm" # See documentation for possible values
     directory: "frontend/" # Location of package manifests
     schedule:
-      interval: "daily"
+      interval: "weekly"
       timezone: "Asia/Tokyo"
