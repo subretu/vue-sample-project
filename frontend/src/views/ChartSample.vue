@@ -37,7 +37,10 @@ export default {
         },
         // クリックイベント
         onClick() {
-          window.open("/tasklist", "_blank");
+          window.open(
+            "/tasklist?id=15&task=sample&limitdata=2022-08-20",
+            "_blank"
+          );
         },
       },
     };
