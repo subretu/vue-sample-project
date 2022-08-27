@@ -6,12 +6,6 @@
         <line-chart :chart-data="datacollection" :options="options" />
       </v-col>
       <v-col cols="12" sm="12" md="6" lg="4">
-        <line-chart :chart-data="datacollection" :options="options" />
-      </v-col>
-      <v-col cols="12" sm="12" md="6" lg="4">
-        <bar-chart :chart-data="datacollection" :options="options" />
-      </v-col>
-      <v-col cols="12" sm="12" md="6" lg="4">
         <bar-chart :chart-data="datacollection" :options="options" />
       </v-col>
     </v-row>
@@ -31,7 +25,21 @@ export default {
   data() {
     return {
       datacollection: {},
-      options: {},
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: "Line chart",
+        },
+        legend: {
+          display: true,
+        },
+        // クリックイベント
+        onClick() {
+          window.open("/tasklist", "_blank");
+        },
+      },
     };
   },
   async mounted() {
@@ -61,17 +69,7 @@ export default {
             },
           ],
         };
-        this.options = {
-          responsive: true,
-          maintainAspectRatio: false,
-          title: {
-            display: true,
-            text: "Line chart",
-          },
-          legend: {
-            display: true,
-          },
-        };
+        console.log(this.datacollection);
       });
     },
   },
