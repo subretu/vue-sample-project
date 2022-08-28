@@ -37,10 +37,7 @@ export default {
         },
         // クリックイベント
         onClick() {
-          window.open(
-            "/tasklist?id=15&task=sample&limitdata=2022-08-20",
-            "_blank"
-          );
+          window.open("/axiostest?id=15&label=2022-08-31&data=123", "_blank");
         },
       },
     };

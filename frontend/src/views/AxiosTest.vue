@@ -59,6 +59,18 @@ export default {
   mounted() {
     this.get_day().then((response) => {
       this.items = response.data;
+      // 遷移元からのパラメーターをテーブルに反映
+      const json =
+        '{"id":' +
+        this.$route.query.id.toString() +
+        ',"label":"' +
+        this.$route.query.label.toString() +
+        '","data":' +
+        this.$route.query.data.toString() +
+        "}";
+      // 文字列ではなくオブジェクトに変換する必要がある
+      const obj = JSON.parse(json);
+      this.items.push(obj);
     });
   },
   watch: {
