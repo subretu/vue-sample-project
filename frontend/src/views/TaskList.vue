@@ -15,9 +15,6 @@
 export default {
   name: "TaskList",
   data() {
-    let value1 = this.$route.query.id.toString();
-    let value2 = this.$route.query.task.toString();
-    let value3 = this.$route.query.limitdata.toString();
     return {
       headers: [
         {
@@ -48,11 +45,6 @@ export default {
           id: 3,
           task: "ファミマでクーポンを使う",
           limitdate: "2022-05-10",
-        },
-        {
-          id: value1,
-          task: value2,
-          limitdate: value3,
         },
       ],
     };
