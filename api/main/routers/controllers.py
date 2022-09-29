@@ -2,11 +2,23 @@ from starlette.requests import Request
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
-from main.query import (
-    get_date_summary,
-    get_time_summary,
-    delete_id
+from main.query import get_date_summary, get_time_summary, delete_id
+import logging
+from logging import getLogger, StreamHandler, Formatter
+
+
+logger = getLogger("uvicorn")
+logger.setLevel(logging.DEBUG)
+# handlerの生成
+stream_handler = StreamHandler()
+# handlerのログレベル設定(ハンドラが出力するエラーメッセージのレベル)
+stream_handler.setLevel(logging.DEBUG)
+# ログ出力フォーマット設定
+handler_format = Formatter(
+    '{"name": %(name)s, "asctime": %(asctime)s, "level": %(levelname)s, "message": %(message)s}'
 )
+stream_handler.setFormatter(handler_format)
+logger.addHandler(stream_handler)
 
 
 router = APIRouter()
@@ -21,10 +33,14 @@ def get_day(request: Request):
     response_data = []
 
     for item, item1, item2 in result_data_day:
-        response_data.append({"id": item, "label": item1.strftime("%Y-%m-%d"), "data": item2})
+        response_data.append(
+            {"id": item, "label": item1.strftime("%Y-%m-%d"), "data": item2}
+        )
 
     cur.close()
     conn.close()
+
+    logger.info(response_data)
 
     return JSONResponse(content=response_data)
 
