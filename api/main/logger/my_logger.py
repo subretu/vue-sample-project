@@ -2,6 +2,8 @@ import logging
 from pythonjsonlogger import jsonlogger
 import datetime
 from pytz import timezone
+from functools import wraps
+import inspect
 
 
 class JsonFormatter(jsonlogger.JsonFormatter):
@@ -50,3 +52,34 @@ def set_logger(module_name):
     logger.addHandler(streamHandler)
 
     return logger
+
+
+def logging_function(logger):
+    def _decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            func_name = func.__name__
+            func_result = func(*args, **kwargs)
+            # loggerで使用するためにfuncに関する情報をdict化
+            extra = {
+                "real_filename": inspect.getfile(func),
+                "real_funcName": func_name,
+                "real_lineno": inspect.currentframe().f_back.f_lineno,
+                "real_result": func_result,
+            }
+
+            logger.info(f"[START] {func_name}", extra=extra)
+
+            try:
+                # funcの実行
+                return func(*args, **kwargs)
+            except Exception as err:
+                # funcのエラーハンドリング
+                logging.error(err, exc_info=True, extra=extra)
+                logging.error(f"[KILLED] {func_name}", extra=extra)
+            else:
+                logging.info(f"[END] {func_name}", extra=extra)
+
+        return wrapper
+
+    return _decorator

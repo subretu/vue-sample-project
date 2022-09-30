@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
 from main.query import get_date_summary, get_time_summary, delete_id
-from main.logger.my_logger import set_logger
+from main.logger.my_logger import logging_function, set_logger
 
 
 logger = set_logger("uvicorn")
@@ -12,6 +12,7 @@ router = APIRouter()
 
 
 @router.get("/day")
+@logging_function(logger)
 def get_day(request: Request):
     conn = get_connection()
     cur = conn.cursor()
@@ -27,7 +28,7 @@ def get_day(request: Request):
     cur.close()
     conn.close()
 
-    logger.info(response_data)
+    # logger.info(response_data)
 
     return JSONResponse(content=response_data)
 
