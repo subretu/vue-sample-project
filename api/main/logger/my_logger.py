@@ -30,6 +30,7 @@ class JsonFormatter(jsonlogger.JsonFormatter):
 
 def set_logger(module_name):
     logger = logging.getLogger(module_name)
+    logger.handlers.clear()
 
     streamHandler = logging.StreamHandler()
 
