@@ -7,9 +7,10 @@ from pytz import timezone
 class JsonFormatter(jsonlogger.JsonFormatter):
     def parse(self):
         return [
+            "level",
+            "funcName",
             "process",
             "timestamp",
-            "level",
             "name",
             "message",
             "stack_info",
@@ -29,17 +30,23 @@ class JsonFormatter(jsonlogger.JsonFormatter):
 
 
 def set_logger(module_name):
+    # loggerの設定
     logger = logging.getLogger(module_name)
+    # ログが重複して出ないようクリア
     logger.handlers.clear()
 
+    # handkerの設定
     streamHandler = logging.StreamHandler()
 
+    # ログ出力のフォーマッターの設定
     formatter = JsonFormatter()
     streamHandler.setFormatter(formatter)
 
+    # ログレベルの設定
     logger.setLevel(logging.DEBUG)
     streamHandler.setLevel(logging.DEBUG)
 
+    # loggerにhanderを追加
     logger.addHandler(streamHandler)
 
     return logger
