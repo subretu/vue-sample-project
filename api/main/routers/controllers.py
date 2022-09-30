@@ -3,54 +3,10 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
 from main.query import get_date_summary, get_time_summary, delete_id
-import logging
-from logging import getLogger, StreamHandler, Formatter
-from pythonjsonlogger import jsonlogger
-import datetime
-from pytz import timezone
+from main.logger.my_logger import set_logger
 
 
-class JsonFormatter(jsonlogger.JsonFormatter):
-    def parse(self):
-        return [
-            "process",
-            "timestamp",
-            "level",
-            "name",
-            "message",
-            "stack_info",
-        ]
-
-    def add_fields(self, log_record, record, message_dict):
-        super().add_fields(log_record, record, message_dict)
-        if not log_record.get("timestamp"):
-            # https://qiita.com/yoppe/items/4260cf4ddde69287a632
-            now = datetime.datetime.now(timezone("Asia/Tokyo")).strftime(
-                "%Y-%m-%dT%H:%M:%S%z"
-            )
-            log_record["timestamp"] = now
-        if log_record.get("level"):
-            log_record["level"] = log_record["level"].upper()
-        else:
-            log_record["level"] = record.levelname
-
-
-# loggerの設定
-logger = getLogger("uvicorn")
-logger.setLevel(logging.DEBUG)
-# handlerの生成
-stream_handler = StreamHandler()
-stream_handler.setLevel(logging.DEBUG)
-# ログ出力フォーマット設定
-"""
-handler_format = Formatter(
-    '{"name": %(name)s, "asctime": %(asctime)s, "level": %(levelname)s, "message": %(message)s}'
-)
-stream_handler.setFormatter(handler_format)
-"""
-formatter = JsonFormatter()
-stream_handler.setFormatter(formatter)
-logger.addHandler(stream_handler)
+logger = set_logger("uvicorn")
 
 router = APIRouter()
 
