@@ -30,6 +30,11 @@ const routes: Array<RouteConfig> = [
     name: "chartsample",
     component: () => import("../views/ChartSample.vue"),
   },
+  {
+    path: "/fileupload",
+    name: "fileupload",
+    component: () => import("../views/FileUpload.vue"),
+  },
 ];
 
 const router = new VueRouter({
