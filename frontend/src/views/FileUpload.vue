@@ -11,7 +11,10 @@
       <v-flex xs12>
         <!-- ファイルの選択 -->
         <div color="primary" @click="btnclick" class="drop_area">
-          select image
+          画像を選択して下さい
+          <v-icon class="" alt="search icon" :x-large="true">
+            mdi-magnify
+          </v-icon>
         </div>
       </v-flex>
     </v-layout>
@@ -41,16 +44,27 @@ export default {
 };
 </script>
 <style>
+:root {
+  --background-color: #f3f3f3;
+  --background-color-hover: #b9b9b9;
+  --border-color: #6d6d6d;
+  --border-color-hover: #757575;
+  --line-border: 2px;
+  --text-color-dark: #505050;
+}
 .drop_area {
-  color: gray;
-  font-weight: bold;
-  font-size: 1.2em;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
-  height: 250px;
-  border: 5px solid gray;
-  border-radius: 15px;
+  flex-direction: column;
+  max-width: 700px;
+  min-height: 150px;
+  border: 5px dashed var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color-dark);
+  border-radius: 20px;
+  box-sizing: border-box;
+  transition: background-color 160ms ease;
+  font-weight: bold;
 }
 </style>
