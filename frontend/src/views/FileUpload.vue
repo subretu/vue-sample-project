@@ -12,8 +12,8 @@
         <!-- ファイルの選択 -->
         <div color="primary" @click="btnclick" class="drop_area">
           画像を選択して下さい
-          <v-icon class="" alt="search icon" :x-large="true">
-            mdi-magnify
+          <v-icon class="my-2" alt="search icon" :x-large="true">
+            mdi-plus
           </v-icon>
         </div>
       </v-flex>
@@ -45,7 +45,7 @@ export default {
 </script>
 <style>
 :root {
-  --background-color: #f3f3f3;
+  --background-color: #ffffff;
   --background-color-hover: #b9b9b9;
   --border-color: #6d6d6d;
   --border-color-hover: #757575;
