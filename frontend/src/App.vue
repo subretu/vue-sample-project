@@ -8,6 +8,7 @@
           <v-tab to="/axiostest">AXIOSTEST</v-tab>
           <v-tab to="/chartsample">CHARTSAMPLE</v-tab>
           <v-tab to="/fileupload">FILEUPLOAD</v-tab>
+          <v-tab to="/fileupload2">FILEUPLOAD2</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
