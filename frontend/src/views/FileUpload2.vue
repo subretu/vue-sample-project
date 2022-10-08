@@ -70,9 +70,11 @@ export default defineComponent({
     const load_image = async (event: Event) => {
       const elm = event.target;
       var selectedFiles = event.target.files;
+
       if (!(elm instanceof HTMLInputElement)) return;
       if (elm.files == null || elm.files.length == 0) {
         data.imageUrl = null;
+        data2.imageUrl = [];
         return;
       }
 
