@@ -4,8 +4,8 @@
       <v-row>
         <v-col cols="12">
           <v-sheet color="white" elevation="1" class="pa-2">
-            <v-row text-xs-center wrap>
-              <v-col xs12>
+            <v-row>
+              <v-col>
                 <h4 class="mb-5">画像</h4>
                 <p>
                   <input
@@ -15,14 +15,16 @@
                     multiple
                   />
                 </p>
-                <p v-for="(uploadFile, index) in data2.imageUrl" :key="index">
-                  <img
-                    :src="uploadFile"
-                    v-if="uploadFile != null"
-                    alt="tmp"
-                    style="max-width: 300px"
-                  />
-                </p>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col v-for="(uploadFile, index) in data2.imageUrl" :key="index">
+                <img
+                  :src="uploadFile"
+                  v-if="uploadFile != null"
+                  alt="tmp"
+                  style="max-width: 100px"
+                />
               </v-col>
             </v-row>
           </v-sheet>
