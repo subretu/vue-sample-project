@@ -25,6 +25,9 @@
                   alt="tmp"
                   style="max-width: 100px"
                 />
+                <v-btn class="mx-2" fab small @click="deletePreview(index)">
+                  <v-icon> mdi-minus </v-icon>
+                </v-btn>
               </v-col>
             </v-row>
           </v-sheet>
@@ -82,9 +85,14 @@ export default defineComponent({
       }
     };
 
+    const deletePreview = (index: number): void => {
+      data2.imageUrl.splice(index, 1);
+    };
+
     return {
       load_image,
       data2,
+      deletePreview,
     };
   },
 });
