@@ -35,8 +35,8 @@
 <script lang="ts">
 import { reactive, defineComponent } from "@vue/composition-api";
 
-type Data = {
-  imageUrl?: string | undefined | null;
+type Data2 = {
+  imageUrl: string[];
 };
 
 const get_data_url = async (file: File): Promise<string> => {
@@ -57,59 +57,31 @@ const get_data_url = async (file: File): Promise<string> => {
 export default defineComponent({
   name: "FileUpload",
   setup() {
-    const data = reactive<Data>({ imageUrl: null });
-    // リアクティブな状態
-    const data2 = reactive({
+    const data2 = reactive<Data2>({
       imageUrl: [],
     });
 
-    //let filelist = [];
-
-    let urllist = [];
-
     const load_image = async (event: Event) => {
-      const elm = event.target;
-      var selectedFiles = event.target.files;
+      const selectedFile = event.target;
 
-      if (!(elm instanceof HTMLInputElement)) return;
-      if (elm.files == null || elm.files.length == 0) {
-        data.imageUrl = null;
+      if (!(selectedFile instanceof HTMLInputElement)) return;
+      if (selectedFile.files == null || selectedFile.files.length == 0) {
         data2.imageUrl = [];
         return;
       }
 
-      if (selectedFiles == null || selectedFiles.length == 0) {
-        data2.imageUrl = null;
-        return;
-      }
-      console.log(selectedFiles.length);
-
-      for (let i = 0; i < selectedFiles.length; i++) {
-        //console.log(selectedFiles[i]);
+      for (let i = 0; i < selectedFile.files.length; i++) {
         try {
-          const result = await get_data_url(selectedFiles[i]);
+          const result = await get_data_url(selectedFile.files[i]);
           data2.imageUrl.push(result);
         } catch (e) {
           alert(`ERROR: ${e}`);
         }
       }
-
-      //console.log(urllist);
-
-      const file = elm.files[0];
-      //console.log(file);
-      try {
-        const result = await get_data_url(file);
-        data.imageUrl = result;
-      } catch (e) {
-        alert(`ERROR: ${e}`);
-      }
     };
 
     return {
-      data,
       load_image,
-      urllist,
       data2,
     };
   },
