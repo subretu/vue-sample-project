@@ -23,9 +23,15 @@
                   :src="uploadFile"
                   v-if="uploadFile != null"
                   alt="tmp"
-                  style="max-width: 100px"
+                  style="max-width: 300px; border: solid 1px black"
                 />
-                <v-btn class="mx-2" fab small @click="deletePreview(index)">
+                <v-btn
+                  class="mx-2"
+                  fab
+                  small
+                  depressed
+                  @click="deletePreview(index)"
+                >
                   <v-icon> mdi-minus </v-icon>
                 </v-btn>
               </v-col>
@@ -83,6 +89,7 @@ export default defineComponent({
           alert(`ERROR: ${e}`);
         }
       }
+      selectedFile.value = "";
     };
 
     const deletePreview = (index: number): void => {
