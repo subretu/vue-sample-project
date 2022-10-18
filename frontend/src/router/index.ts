@@ -40,6 +40,11 @@ const routes: Array<RouteConfig> = [
     name: "fileupload2",
     component: () => import("../views/FileUpload2.vue"),
   },
+  {
+    path: "/Inputtext",
+    name: "Inputtext",
+    component: () => import("../views/InputtText.vue"),
+  },
 ];
 
 const router = new VueRouter({
