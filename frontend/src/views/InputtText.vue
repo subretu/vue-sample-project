@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" ref="form">
+  <v-form>
     <v-container>
       <v-row>
         <v-col cols="12">
@@ -13,6 +13,7 @@
                   dense
                   class="input-text"
                   counter="50"
+                  v-model="state.inputtext1"
                 ></v-text-field>
               </v-col>
             </v-row>
@@ -26,13 +27,14 @@
                   dense
                   class="input-text"
                   counter="50"
+                  v-model="state.inputtext2"
                 ></v-text-field>
               </v-col>
             </v-row>
             <v-divider class="mb-7"></v-divider>
             <v-row>
               <v-col>
-                <v-btn depressed color="info">登録</v-btn>
+                <v-btn depressed color="info" @click="clickSample">登録</v-btn>
               </v-col>
             </v-row>
           </v-sheet>
@@ -43,13 +45,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, reactive } from "@vue/composition-api";
 
 export default defineComponent({
   name: "InputText",
+  setup() {
+    const state = reactive({
+      inputtext1: null,
+      inputtext2: null,
+    });
+
+    const clickSample = (): void => {
+      console.log(state.inputtext1);
+      console.log(state.inputtext2);
+    };
+
+    return {
+      state,
+      clickSample,
+    };
+  },
 });
 </script>
-
 <style>
 .input-text {
   width: 700px;
