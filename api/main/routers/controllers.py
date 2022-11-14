@@ -64,3 +64,15 @@ def detele(request: Request, id):
 
     cur.close()
     conn.close()
+
+
+@router.post("/insertdata")
+async def insertdata(request: Request):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    #data = await request.form()
+    print("ok")
+
+    cur.close()
+    conn.close()
