@@ -73,6 +73,7 @@ async def insertdata(request: Request):
 
     #data = await request.form()
     print("ok")
+    return "ok"
 
     cur.close()
     conn.close()
