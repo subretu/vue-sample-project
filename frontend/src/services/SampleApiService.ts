@@ -9,6 +9,10 @@ class SampleApiService {
   delete(id: any): Promise<any> {
     return http.get(`/delete/${id}`);
   }
+
+  insert(data: any): Promise<any> {
+    return http.post("/insertdata", data);
+  }
 }
 
 export default new SampleApiService();

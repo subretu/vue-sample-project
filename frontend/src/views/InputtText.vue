@@ -6,7 +6,7 @@
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2">項目A</h3>
+                <h3 class="mb-2" align="left">項目A</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
@@ -20,7 +20,7 @@
             <v-divider class="mb-7"></v-divider>
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2">項目B</h3>
+                <h3 class="mb-2" align="left">項目B</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
@@ -46,6 +46,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from "@vue/composition-api";
+import SampleApiService from "@/services/SampleApiService";
 
 export default defineComponent({
   name: "InputText",
@@ -56,8 +57,11 @@ export default defineComponent({
     });
 
     const clickSample = (): void => {
-      console.log(state.inputtext1);
       console.log(state.inputtext2);
+      // insert APIの実行
+      SampleApiService.insert("l")
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
     };
 
     return {
