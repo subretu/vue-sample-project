@@ -56,12 +56,13 @@ export default defineComponent({
       inputtext2: null,
     });
 
+    const inserttest = SampleApiService.insert();
     const clickSample = (): void => {
       console.log(state.inputtext2);
       // insert APIの実行
-      SampleApiService.insert("l")
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
+      inserttest.then(() => {
+        console.log("postok");
+      });
     };
 
     return {
