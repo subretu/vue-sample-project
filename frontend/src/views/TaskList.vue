@@ -1,13 +1,68 @@
+<!-- eslint-disable vue/require-v-for-key -->
 <template>
-  <v-container>
-    <h3>TaskList</h3>
-    <v-row>
-      <v-col cols="10">
-        <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="items"></v-data-table>
-        </v-sheet>
-      </v-col>
-    </v-row>
+  <v-container class="pa-3" fluid>
+    <v-card class="translucent" tile>
+      <h3 class="pa-4">TASKLIST</h3>
+      <v-row class="ma-0">
+        <v-col class="pa-4" cols="4">
+          <h3>table A</h3>
+          <table border="1" style="border-collapse: collapse">
+            <tbody align="center">
+              <tr>
+                <th>ID</th>
+                <td v-for="item in items">{{ item.id }}</td>
+              </tr>
+              <tr>
+                <th>Task</th>
+                <td v-for="item in items">{{ item.task }}</td>
+              </tr>
+              <tr>
+                <th>LimitD</th>
+                <td v-for="item in items">{{ item.limitdate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </v-col>
+        <v-col class="pa-4" cols="4">
+          <h3>table A</h3>
+          <table border="1" style="border-collapse: collapse">
+            <tbody align="center">
+              <tr>
+                <th>ID</th>
+                <td v-for="item in items">{{ item.id }}</td>
+              </tr>
+              <tr>
+                <th>Task</th>
+                <td v-for="item in items">{{ item.task }}</td>
+              </tr>
+              <tr>
+                <th>LimitD</th>
+                <td v-for="item in items">{{ item.limitdate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </v-col>
+        <v-col class="pa-4" cols="4">
+          <h3>table A</h3>
+          <table border="1" style="border-collapse: collapse">
+            <tbody align="center">
+              <tr>
+                <th>ID</th>
+                <td v-for="item in items">{{ item.id }}</td>
+              </tr>
+              <tr>
+                <th>Task</th>
+                <td v-for="item in items">{{ item.task }}</td>
+              </tr>
+              <tr>
+                <th>LimitD</th>
+                <td v-for="item in items">{{ item.limitdate }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
 </template>
 
@@ -16,38 +71,21 @@ export default {
   name: "TaskList",
   data() {
     return {
-      headers: [
-        {
-          text: "ID",
-          value: "id",
-        },
-        {
-          text: "タスク",
-          value: "task",
-        },
-        {
-          text: "期限日",
-          value: "limitdate",
-        },
-      ],
       items: [
         {
           id: 1,
           task: "メルカリを出す",
           limitdate: "2022-05-01",
         },
-        {
-          id: 2,
-          task: "牛乳を消費する",
-          limitdate: "2022-05-03",
-        },
-        {
-          id: 3,
-          task: "ファミマでクーポンを使う",
-          limitdate: "2022-05-10",
-        },
       ],
     };
   },
 };
 </script>
+<style scoped>
+th {
+  background-color: #bbccce;
+  font-weight: normal;
+  width: 80%;
+}
+</style>
