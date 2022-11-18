@@ -90,16 +90,17 @@ export default {
 </script>
 <style scoped>
 table {
-  display: block;
+  display: contents;
   width: 100%;
+  border: solid 1px #bbccce;
 }
 table tbody {
   width: 100%;
   display: table;
 }
 th {
-  background-color: #bbccce;
+  background-color: #bbccce64;
   font-weight: normal;
-  width: 60%;
+  width: 50%;
 }
 </style>
