@@ -10,7 +10,11 @@
             <tbody align="center">
               <tr>
                 <th>ID</th>
-                <td v-for="item in items">{{ item.id }}</td>
+                <td v-for="item in items">
+                  最大：{{ item.id }}、最小：{{ item.id2 }}、平均：{{
+                    item.id3
+                  }}
+                </td>
               </tr>
               <tr>
                 <th>Task</th>
@@ -29,7 +33,7 @@
             <tbody align="center">
               <tr>
                 <th>ID</th>
-                <td v-for="item in items">{{ item.id }}</td>
+                <td v-for="item in items" width="150">{{ item.id }}</td>
               </tr>
               <tr>
                 <th>Task</th>
@@ -74,6 +78,8 @@ export default {
       items: [
         {
           id: 1,
+          id2: 2,
+          id3: 3,
           task: "メルカリを出す",
           limitdate: "2022-05-01",
         },
@@ -83,9 +89,17 @@ export default {
 };
 </script>
 <style scoped>
+table {
+  display: block;
+  width: 100%;
+}
+table tbody {
+  width: 100%;
+  display: table;
+}
 th {
   background-color: #bbccce;
   font-weight: normal;
-  width: 80%;
+  width: 60%;
 }
 </style>
