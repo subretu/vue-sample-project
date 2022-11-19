@@ -1,9 +1,9 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
   <v-container class="pa-3" fluid>
-    <div v-show="date">
+    <div v-show="(nowYear, nowMonth)">
       <p class="text-h5">
-        <strong>{{ date }}</strong>
+        <strong>{{ nowYear }}年{{ nowMonth }}月</strong>
       </p>
     </div>
     <v-card class="translucent" tile>
@@ -115,16 +115,23 @@ export default {
           limitdate: "2022-10-25",
         },
       ],
-      date: "",
+      nowYear: "",
+      nowMonth: "",
     };
   },
   methods: {
-    gettDate: function () {
-      return new Date().toLocaleDateString();
+    getYear: function () {
+      var date = new Date();
+      return date.getFullYear();
+    },
+    getMonth: function () {
+      var date = new Date();
+      return ("0" + (date.getMonth() + 1)).slice(-2);
     },
   },
   mounted: function () {
-    this.date = this.gettDate();
+    this.nowYear = this.getYear();
+    this.nowMonth = this.getMonth();
   },
 };
 </script>
