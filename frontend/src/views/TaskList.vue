@@ -1,6 +1,11 @@
 <!-- eslint-disable vue/require-v-for-key -->
 <template>
   <v-container class="pa-3" fluid>
+    <div v-show="date">
+      <p class="text-h5">
+        <strong>{{ date }}</strong>
+      </p>
+    </div>
     <v-card class="translucent" tile>
       <h3 class="pa-4">TASKLIST</h3>
       <v-row class="ma-0">
@@ -27,6 +32,7 @@
             </tbody>
           </table>
         </v-col>
+        <v-divider vertical class="mb-4"></v-divider>
         <v-col class="pa-4" cols="4">
           <h3>Table B</h3>
           <table border="1" style="border-collapse: collapse">
@@ -46,6 +52,7 @@
             </tbody>
           </table>
         </v-col>
+        <v-divider vertical class="mb-4"></v-divider>
         <v-col class="pa-4" cols="4">
           <h3>Table C</h3>
           <table border="1" style="border-collapse: collapse">
@@ -108,7 +115,16 @@ export default {
           limitdate: "2022-10-25",
         },
       ],
+      date: "",
     };
+  },
+  methods: {
+    gettDate: function () {
+      return new Date().toLocaleDateString();
+    },
+  },
+  mounted: function () {
+    this.date = this.gettDate();
   },
 };
 </script>
