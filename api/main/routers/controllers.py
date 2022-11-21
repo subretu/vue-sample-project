@@ -71,9 +71,16 @@ async def insertdata(request: Request):
     conn = get_connection()
     cur = conn.cursor()
 
-    #data = await request.form()
+    # data = await request.form()
     print("ok")
     return "ok"
 
     cur.close()
     conn.close()
+
+
+@router.get("/task")
+@logging_function(logger)
+def get_task(request: Request):
+    response_data = [{"id": 1, "task": "ローソンに行く", "limitd": "2022-10-01"}]
+    return JSONResponse(content=response_data)
