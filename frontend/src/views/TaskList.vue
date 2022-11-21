@@ -2,7 +2,8 @@
   <v-container class="pa-3" fluid>
     <div v-show="(nowYear, nowMonth)">
       <p class="text-h5">
-        <strong>{{ nowYear }}年{{ nowMonth }}月</strong>
+        <strong>{{ nowYear }}年{{ nowMonth }}月</strong
+        ><v-btn @click="tableaChange">値変更</v-btn>
       </p>
     </div>
     <SummaryTable :viewdata="[taskData, items2, items3]" />
@@ -39,6 +40,7 @@ export default {
       nowYear: "",
       nowMonth: "",
       taskData: [],
+      is_first: "1",
     };
   },
   methods: {
@@ -51,18 +53,23 @@ export default {
       return ("0" + (date.getMonth() + 1)).slice(-2);
     },
     get_task() {
-      return SampleApiService.task();
+      return SampleApiService.task(this.is_first);
     },
     fillData() {
-      this.get_task().then((response) => {
+      this.get_task(this.is_first).then((response) => {
         this.taskData = response.data;
       });
+    },
+    tableaChange() {
+      console.log("okk");
+      this.is_first = "2";
+      this.fillData(this.is_first);
     },
   },
   async mounted() {
     this.nowYear = this.getYear();
     this.nowMonth = this.getMonth();
-    this.fillData();
+    this.fillData(this.is_first);
   },
 };
 </script>

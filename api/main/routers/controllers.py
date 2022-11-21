@@ -79,8 +79,12 @@ async def insertdata(request: Request):
     conn.close()
 
 
-@router.get("/task")
+@router.get("/task/{is_first}")
 @logging_function(logger)
-def get_task(request: Request):
-    response_data = [{"id": 1, "task": "ローソンに行く", "limitd": "2022-10-01"}]
+def get_task(request: Request, is_first):
+    if is_first == "1":
+        response_data = [{"id": 1, "task": "ローソンに行く", "limitd": "2022-10-01"}]
+    else:
+        response_data = [{"id": 2, "task": "ファミマに行く", "limitd": "2022-11-01"}]
+
     return JSONResponse(content=response_data)

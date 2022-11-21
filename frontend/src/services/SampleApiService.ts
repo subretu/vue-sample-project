@@ -14,8 +14,8 @@ class SampleApiService {
     return http.post("/insertdata");
   }
 
-  task(): Promise<any> {
-    return http.get("/task");
+  task(is_button: any): Promise<any> {
+    return http.get(`/task/${is_button}`);
   }
 }
 
