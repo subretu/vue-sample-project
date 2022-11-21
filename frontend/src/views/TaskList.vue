@@ -5,12 +5,13 @@
         <strong>{{ nowYear }}年{{ nowMonth }}月</strong>
       </p>
     </div>
-    <SummaryTable :viewdata="[items, items2, items3]" />
+    <SummaryTable :viewdata="[taskData, items2, items3]" />
   </v-container>
 </template>
 
 <script>
 import SummaryTable from "../components/SummaryTable.vue";
+import SampleApiService from "@/services/SampleApiService";
 
 export default {
   name: "TaskList",
@@ -19,15 +20,6 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          id2: 2,
-          id3: 3,
-          task: "メルカリを出す",
-          limitdate: "2022-05-01",
-        },
-      ],
       items2: [
         {
           id: 59,
@@ -46,6 +38,7 @@ export default {
       ],
       nowYear: "",
       nowMonth: "",
+      taskData: [],
     };
   },
   methods: {
@@ -57,10 +50,19 @@ export default {
       var date = new Date();
       return ("0" + (date.getMonth() + 1)).slice(-2);
     },
+    get_task() {
+      return SampleApiService.task();
+    },
+    fillData() {
+      this.get_task().then((response) => {
+        this.taskData = response.data;
+      });
+    },
   },
-  mounted: function () {
+  async mounted() {
     this.nowYear = this.getYear();
     this.nowMonth = this.getMonth();
+    this.fillData();
   },
 };
 </script>

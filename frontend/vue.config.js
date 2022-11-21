@@ -10,6 +10,12 @@ module.exports = defineConfig({
       "/delete": {
         target: "http://localhost:8000",
       },
+      "/insert": {
+        target: "http://localhost:8000",
+      },
+      "/task": {
+        target: "http://localhost:8000",
+      },
     },
   },
 });

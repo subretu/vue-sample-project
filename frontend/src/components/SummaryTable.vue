@@ -9,9 +9,7 @@
           <tbody align="center">
             <tr>
               <th>ID</th>
-              <td v-for="item in viewdata[0]">
-                最大：{{ item.id }}、最小：{{ item.id2 }}、平均：{{ item.id3 }}
-              </td>
+              <td v-for="item in viewdata[0]">{{ item.id }}</td>
             </tr>
             <tr>
               <th>Task</th>
@@ -19,7 +17,7 @@
             </tr>
             <tr>
               <th>LimitD</th>
-              <td v-for="item in viewdata[0]">{{ item.limitdate }}</td>
+              <td v-for="item in viewdata[0]">{{ item.limitd }}</td>
             </tr>
           </tbody>
         </table>
