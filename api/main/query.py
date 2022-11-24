@@ -57,3 +57,8 @@ def get_date_stack_summary(cur):
 def delete_id(conn, cur, id):
     cur.execute(f"delete from sample_date_summary2 where id = '{id}' ;")
     conn.commit()
+
+
+def insert_data(conn, cur, input_id, input_opsdate, input_value):
+    cur.execute(f"insert into sample_date_summary2 (id, opsdate, sum_value) values({input_id}, '{input_opsdate}', {input_value});")
+    conn.commit()

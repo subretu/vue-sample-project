@@ -1,8 +1,9 @@
 from starlette.requests import Request
+from fastapi import Depends, Body
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
-from main.query import get_date_summary, get_time_summary, delete_id
+from main.query import get_date_summary, get_time_summary, delete_id, insert_data
 from main.logger.my_logger import logging_function, set_logger
 
 
@@ -67,13 +68,19 @@ def detele(request: Request, id):
 
 
 @router.post("/insertdata")
-async def insertdata(request: Request):
+def insertdata(input_data: dict):
     conn = get_connection()
     cur = conn.cursor()
 
-    # data = await request.form()
-    print("ok")
-    return "ok"
+    input_id = int(input_data["id"])
+    input_opsdate = input_data["opsdate"]
+    input_value = int(input_data["value"])
+
+    print(input_id)
+    print(input_opsdate)
+    print(input_value)
+
+    insert_data(conn, cur, input_id, input_opsdate, input_value)
 
     cur.close()
     conn.close()

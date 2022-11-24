@@ -6,7 +6,7 @@
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2" align="left">項目A</h3>
+                <h3 class="mb-2" align="left">ID</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
@@ -20,7 +20,7 @@
             <v-divider class="mb-7"></v-divider>
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2" align="left">項目B</h3>
+                <h3 class="mb-2" align="left">日付</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
@@ -32,6 +32,19 @@
               </v-col>
             </v-row>
             <v-divider class="mb-7"></v-divider>
+            <v-row>
+              <v-col xl="12" cols="12">
+                <h3 class="mb-2" align="left">値</h3>
+                <v-text-field
+                  label="入力してください。"
+                  outlined
+                  dense
+                  class="input-text"
+                  counter="50"
+                  v-model="state.inputtext3"
+                ></v-text-field>
+              </v-col>
+            </v-row>
             <v-row>
               <v-col>
                 <v-btn depressed color="info" @click="clickSample">登録</v-btn>
@@ -54,13 +67,16 @@ export default defineComponent({
     const state = reactive({
       inputtext1: null,
       inputtext2: null,
+      inputtext3: null,
     });
 
-    const inserttest = SampleApiService.insert();
     const clickSample = (): void => {
-      console.log(state.inputtext2);
       // insert APIの実行
-      inserttest.then(() => {
+      SampleApiService.insert({
+        id: state.inputtext1,
+        opsdate: state.inputtext2,
+        value: state.inputtext3,
+      }).then(() => {
         console.log("postok");
       });
     };

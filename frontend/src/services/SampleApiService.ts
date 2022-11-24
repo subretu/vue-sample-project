@@ -10,8 +10,8 @@ class SampleApiService {
     return http.get(`/delete/${id}`);
   }
 
-  insert(): Promise<any> {
-    return http.post("/insertdata");
+  insert(data: any): Promise<any> {
+    return http.post("/insertdata", data);
   }
 
   task(is_button: any): Promise<any> {
