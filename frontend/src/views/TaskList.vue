@@ -1,9 +1,9 @@
 <template>
   <v-container class="pa-3" fluid>
-    <div v-show="(nowYear, nowMonth)">
+    <div v-show="(nowYear, nowMonth)" align="left">
       <p class="text-h5">
         <strong>{{ nowYear }}年{{ nowMonth }}月</strong
-        ><v-btn @click="tableaChange">値変更</v-btn>
+        ><v-btn class="ml-5" @click="tableaChange">値変更</v-btn>
       </p>
     </div>
     <SummaryTable :viewdata="[taskData, items2, items3]" />

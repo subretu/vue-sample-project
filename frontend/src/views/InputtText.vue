@@ -70,15 +70,18 @@ export default defineComponent({
       inputtext3: null,
     });
 
-    const clickSample = (): void => {
+    const clickSample = async () => {
       // insert APIの実行
-      SampleApiService.insert({
-        id: state.inputtext1,
-        opsdate: state.inputtext2,
-        value: state.inputtext3,
-      }).then(() => {
+      try {
+        await SampleApiService.insert({
+          id: state.inputtext1,
+          opsdate: state.inputtext2,
+          value: state.inputtext3,
+        });
         console.log("postok");
-      });
+      } catch (error) {
+        console.log("error");
+      }
     };
 
     return {
