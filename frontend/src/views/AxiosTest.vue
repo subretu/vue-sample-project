@@ -1,7 +1,9 @@
 <template>
   <v-container>
     <v-alert type="success" dismissible :value="isAlert">Deleted</v-alert>
-    <h3>AAxiosTest</h3>
+    <span align="left">
+      <b class="title pr-5">AxiosTest</b>{{ items.length }}件
+    </span>
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
@@ -104,3 +106,8 @@ export default {
   },
 };
 </script>
+<style>
+.title {
+  font-size: 18px;
+}
+</style>
