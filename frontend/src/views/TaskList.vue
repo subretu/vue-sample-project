@@ -66,7 +66,7 @@ export default {
       this.fillData(this.is_first);
     },
   },
-  async mounted() {
+  mounted() {
     this.nowYear = this.getYear();
     this.nowMonth = this.getMonth();
     this.fillData(this.is_first);
