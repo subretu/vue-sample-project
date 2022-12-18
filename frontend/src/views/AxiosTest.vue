@@ -24,9 +24,11 @@
                 <v-icon @click="onClickDelete(item)"> mdi-delete </v-icon>
               </template>
             </v-data-table>
-            <div class="text-center">
-              {{ page }}/ {{ pageCount }}
-              <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            <div class="flex">
+              <div class="left mt-3">{{ page }}/ {{ pageCount }}</div>
+              <div class="right text-center">
+                <v-pagination v-model="page" :length="pageCount"></v-pagination>
+              </div>
             </div>
           </div>
         </v-sheet>
@@ -126,6 +128,9 @@ export default {
 };
 </script>
 <style>
+.flex {
+  display: flex;
+}
 .title {
   font-size: 18px;
 }
