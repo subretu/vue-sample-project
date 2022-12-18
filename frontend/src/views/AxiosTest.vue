@@ -7,12 +7,28 @@
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="items">
-            <template v-slot:[`item.actions`]="{ item }">
-              <v-icon class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
-              <v-icon @click="onClickDelete(item)"> mdi-delete </v-icon>
-            </template>
-          </v-data-table>
+          <div>
+            <v-data-table
+              :headers="headers"
+              :items="items"
+              :page.sync="page"
+              :items-per-page="itemsPerPage"
+              hide-default-footer
+              class="elevation-1"
+              @page-count="pageCount = $event"
+            >
+              <template v-slot:[`item.actions`]="{ item }">
+                <v-icon class="mr-2" @click="editItem(item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon @click="onClickDelete(item)"> mdi-delete </v-icon>
+              </template>
+            </v-data-table>
+            <div class="text-center">
+              {{ itemsPerPage }}/ {{ items.length }}
+              <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            </div>
+          </div>
         </v-sheet>
       </v-col>
     </v-row>
@@ -42,6 +58,9 @@ import SampleApiService from "@/services/SampleApiService";
 export default {
   data() {
     return {
+      page: 1,
+      pageCount: 0,
+      itemsPerPage: 5,
       headers: [
         { text: "ID", value: "id" },
         { text: "日付", value: "label" },
