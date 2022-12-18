@@ -24,14 +24,14 @@
                 <v-icon @click="onClickDelete(item)"> mdi-delete </v-icon>
               </template>
             </v-data-table>
-            <div class="flex">
-              <div class="left mt-3">{{ page }}/ {{ pageCount }}</div>
-              <div class="right text-center">
-                <v-pagination v-model="page" :length="pageCount"></v-pagination>
-              </div>
-            </div>
           </div>
         </v-sheet>
+        <div class="flex">
+          <div class="left mt-3">{{ page }}/ {{ pageCount }}</div>
+          <div class="right text-center">
+            <v-pagination v-model="page" :length="pageCount"></v-pagination>
+          </div>
+        </div>
       </v-col>
     </v-row>
     <!-- 削除ダイアログ -->
@@ -130,6 +130,15 @@ export default {
 <style>
 .flex {
   display: flex;
+}
+.flex div {
+  box-sizing: border-box;
+}
+.right {
+  margin-right: auto;
+}
+.left {
+  margin-left: auto;
 }
 .title {
   font-size: 18px;
