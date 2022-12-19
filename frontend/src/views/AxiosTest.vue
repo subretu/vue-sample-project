@@ -27,7 +27,9 @@
           </div>
         </v-sheet>
         <div class="flex">
-          <div class="left mt-3">{{ page }}/ {{ pageCount }}</div>
+          <div class="left mt-3">
+            {{ displayDataCount() }}/ {{ items.length }}
+          </div>
           <div class="right text-center">
             <v-pagination v-model="page" :length="pageCount"></v-pagination>
           </div>
@@ -123,6 +125,13 @@ export default {
         });
         this.isAlert = true;
       });
+    },
+    displayDataCount() {
+      if (this.items.length <= this.page * 5) {
+        return this.items.length;
+      } else {
+        return 5;
+      }
     },
   },
 };
