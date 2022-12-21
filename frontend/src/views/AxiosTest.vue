@@ -130,7 +130,7 @@ export default {
       if (this.items.length <= this.page * 5) {
         return this.items.length;
       } else {
-        return 5;
+        return this.page * 5;
       }
     },
   },
