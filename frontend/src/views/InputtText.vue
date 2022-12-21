@@ -77,8 +77,8 @@ export default defineComponent({
 
     watch(isAlert, () => {
       setTimeout(() => {
-        isAlert.value = true;
-      }, 5000);
+        isAlert.value = false;
+      }, 3000);
     });
 
     const clickSample = async () => {
