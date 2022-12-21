@@ -1,6 +1,9 @@
 <template>
   <v-form>
     <v-container>
+      <v-alert type="success" dismissible :value="isAlert"
+        >Insert Sucessed</v-alert
+      >
       <v-row>
         <v-col cols="12">
           <v-sheet color="white" elevation="1" class="pa-2">
@@ -58,7 +61,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "@vue/composition-api";
+import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
 import SampleApiService from "@/services/SampleApiService";
 
 export default defineComponent({
@@ -70,6 +73,14 @@ export default defineComponent({
       inputtext3: null,
     });
 
+    const isAlert = ref(false);
+
+    watch(isAlert, () => {
+      setTimeout(() => {
+        isAlert.value = true;
+      }, 5000);
+    });
+
     const clickSample = async () => {
       // insert APIの実行
       try {
@@ -79,12 +90,14 @@ export default defineComponent({
           value: state.inputtext3,
         });
         console.log("postok");
+        isAlert.value = true;
       } catch (error) {
         console.log("error");
       }
     };
 
     return {
+      isAlert,
       state,
       clickSample,
     };
