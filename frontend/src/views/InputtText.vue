@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
-import SampleApiService from "@/services/SampleApiService";
+import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
   name: "InputText",
