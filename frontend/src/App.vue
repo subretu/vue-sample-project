@@ -5,6 +5,7 @@
         <v-tabs>
           <v-tab to="/userlist">USERLIST</v-tab>
           <v-tab to="/tasklist">TASKLIST</v-tab>
+          <v-tab to="/tasklist2">TASKLIST2</v-tab>
           <v-tab to="/axiostest">AXIOSTEST</v-tab>
           <v-tab to="/chartsample">CHARTSAMPLE</v-tab>
           <v-tab to="/fileupload">FILEUPLOAD</v-tab>

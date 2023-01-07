@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/TaskList.vue"),
   },
   {
+    path: "/tasklist2",
+    name: "tasklist2",
+    component: () => import("../views/TaskList2.vue"),
+  },
+  {
     path: "/axiostest",
     name: "axiostest",
     component: () => import("../views/AxiosTest.vue"),
