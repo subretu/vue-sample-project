@@ -33,18 +33,16 @@ export default defineComponent({
     ];
     const items = [
       {
-        id: "fff",
-        name: "fff",
-        age: "fff",
+        id: null,
+        name: null,
+        age: null,
       },
     ];
     const checkNull = () => {
-      const id = items[0].id;
-      const name = items[0].name;
-      const age = items[0].age;
-
-      // 1つでもNULLだったら返さないようにする
-      if (id == null || name == null || age == null) {
+      // オブジェクトの値一覧を取得
+      const valueArray = Object.values(items[0]);
+      // 全てnullの場合は空listを返してdata-tableで表示されないようにする
+      if (valueArray.every((num) => num == null)) {
         return [];
       }
       return items;
