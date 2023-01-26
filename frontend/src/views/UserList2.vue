@@ -5,7 +5,7 @@
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="checkNull()"> </v-data-table>
+          <v-data-table :headers="headers" :items="displayData"> </v-data-table>
         </v-sheet>
       </v-col>
     </v-row>
@@ -13,7 +13,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/composition-api";
+import { defineComponent, reactive, computed } from "@vue/composition-api";
+
+class UserList {
+  id?: string | null;
+  name?: string | null;
+  age?: number | string | null;
+}
 
 export default defineComponent({
   setup() {
@@ -31,26 +37,30 @@ export default defineComponent({
         value: "age",
       },
     ];
-    const items = [
-      {
-        id: null,
-        name: null,
-        age: null,
-      },
-    ];
-    const checkNull = () => {
-      // オブジェクトの値一覧を取得
-      const valueArray = Object.values(items[0]);
-      // 全てnullの場合は空listを返してdata-tableで表示されないようにする
-      if (valueArray.every((num) => num == null)) {
-        return [];
+    // 初期値のセットアップ
+    const items = reactive(new UserList());
+    const setData = () => {
+      items.id = null;
+      items.name = "name";
+      items.age = 23;
+    };
+    // データのnullを変換して表示データを作成する
+    const displayData = computed(() => {
+      setData();
+      convertData(items);
+      return [items];
+    });
+    // 値がnullなら変換する
+    const convertData = (items: UserList) => {
+      if (items.id == null) {
+        items.id = "NoData";
       }
-      return items;
     };
     return {
       headers,
       items,
-      checkNull,
+      setData,
+      displayData,
     };
   },
 });
