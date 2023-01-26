@@ -37,16 +37,17 @@ export default defineComponent({
         value: "age",
       },
     ];
-    // 初期値のセットアップ
+    // 表示データを定義
     const items = reactive(new UserList());
+    // 初期値のセットアップ
     const setData = () => {
       items.id = null;
       items.name = "name";
       items.age = 23;
     };
+    setData();
     // データのnullを変換して表示データを作成する
     const displayData = computed(() => {
-      setData();
       convertData(items);
       return [items];
     });
