@@ -18,7 +18,11 @@ import { defineComponent, reactive, computed } from "@vue/composition-api";
 class UserList {
   id?: string | null;
   name?: string | null;
-  age?: number | string | null;
+  age?: string | null;
+}
+
+interface UserListIF {
+  [key: string]: string | null;
 }
 
 export default defineComponent({
@@ -41,22 +45,25 @@ export default defineComponent({
     const items = reactive(new UserList());
     // 初期値のセットアップ
     const setData = () => {
-      items.id = null;
+      items.id = "123";
       items.name = "name";
-      items.age = 23;
+      items.age = null;
     };
     setData();
     // データのnullを変換して表示データを作成する
     const displayData = computed(() => {
-      convertData(items);
-      return [items];
-    });
-    // 値がnullなら変換する
-    const convertData = (items: UserList) => {
-      if (items.id == null) {
-        items.id = "NoData";
+      const data: UserListIF = {};
+      const entries = Object.entries(items);
+      for (const [k, v] of entries) {
+        const key: string = k;
+        if (v == null) {
+          data[key] = "NoData";
+        } else {
+          data[key] = v;
+        }
       }
-    };
+      return [data];
+    });
     return {
       headers,
       items,
