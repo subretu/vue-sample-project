@@ -2,7 +2,7 @@
   <v-container>
     <v-alert type="success" dismissible :value="isAlert">Deleted</v-alert>
     <span align="left">
-      <b class="title pr-5">AxiosTest</b>{{ items.length }}件
+      <b class="title pr-5">AxiosTest</b>{{ formItems.length }}件
     </span>
     <v-row>
       <v-col cols="10">
@@ -10,7 +10,7 @@
           <div>
             <v-data-table
               :headers="headers"
-              :items="items"
+              :items="formItems"
               :page.sync="page"
               :items-per-page="itemsPerPage"
               hide-default-footer
@@ -28,7 +28,7 @@
         </v-sheet>
         <div class="flex">
           <div class="left mt-3">
-            {{ displayDataCount() }}/ {{ items.length }}
+            {{ displayDataCount() }}/ {{ formItems.length }}
           </div>
           <div class="right text-center">
             <v-pagination v-model="page" :length="pageCount"></v-pagination>
@@ -58,7 +58,9 @@
 </template>
 
 <script>
+import Sortable from "sortablejs";
 import SampleApiService from "@/services/SampleApiService";
+
 export default {
   data() {
     return {
@@ -71,7 +73,7 @@ export default {
         { text: "値", value: "data" },
         { text: "操作", value: "actions" },
       ],
-      items: [],
+      formItems: [],
       // ダイアログの表示状態
       show: false,
       // ローディング状態
@@ -83,7 +85,7 @@ export default {
   },
   mounted() {
     this.get_day().then((response) => {
-      this.items = response.data;
+      this.formItems = response.data;
       // 遷移元からのパラメーターをテーブルに反映
       const json =
         '{"id":' +
@@ -95,8 +97,9 @@ export default {
         "}";
       // 文字列ではなくオブジェクトに変換する必要がある
       const obj = JSON.parse(json);
-      this.items.push(obj);
+      this.formItems.push(obj);
     });
+    this.initSortable();
   },
   watch: {
     isAlert: function () {
@@ -121,17 +124,34 @@ export default {
       SampleApiService.delete(this.selectData.id).then(() => {
         this.show = false;
         this.get_day().then((response) => {
-          this.items = response.data;
+          this.formItems = response.data;
         });
         this.isAlert = true;
       });
     },
     displayDataCount() {
-      if (this.items.length <= this.page * 5) {
-        return this.items.length;
+      if (this.formItems.length <= this.page * 5) {
+        return this.formItems.length;
       } else {
         return this.page * 5;
       }
+    },
+    initSortable() {
+      let table = document.querySelector("tbody");
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const _self = this;
+      // this way we avoid data binding
+      _self.dragNdrop = JSON.parse(JSON.stringify(_self.formItems));
+
+      Sortable.create(table, {
+        onEnd({ newIndex, oldIndex }) {
+          _self.dragNdrop.splice(
+            newIndex,
+            0,
+            ..._self.dragNdrop.splice(oldIndex, 1)
+          );
+        },
+      });
     },
   },
 };
