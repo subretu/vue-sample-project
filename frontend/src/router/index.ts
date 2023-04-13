@@ -55,6 +55,11 @@ const routes: Array<RouteConfig> = [
     name: "Inputtext",
     component: () => import("../views/InputtText.vue"),
   },
+  {
+    path: "/createlink",
+    name: "createlink",
+    component: () => import("../views/CreateLink.vue"),
+  },
 ];
 
 const router = new VueRouter({

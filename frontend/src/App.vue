@@ -12,6 +12,7 @@
           <v-tab to="/fileupload">FILEUPLOAD</v-tab>
           <v-tab to="/fileupload2">FILEUPLOAD2</v-tab>
           <v-tab to="/Inputtext">INPUTTEXT</v-tab>
+          <v-tab to="/createlink">CREATELINK</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
