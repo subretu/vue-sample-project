@@ -1,56 +1,47 @@
 <template>
   <v-form>
     <v-container>
-      <v-alert type="success" dismissible :value="isAlert"
-        >Insert Sucessed</v-alert
-      >
       <v-row>
         <v-col cols="12">
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2" align="left">ID</h3>
+                <h3 class="mb-2" align="left">タイトル</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
                   dense
                   class="input-text"
-                  counter="50"
                   v-model="state.inputtext1"
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-divider class="mb-7"></v-divider>
             <v-row>
               <v-col xl="12" cols="12">
-                <h3 class="mb-2" align="left">日付</h3>
+                <h3 class="mb-2" align="left">URL</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
                   dense
                   class="input-text"
-                  counter="50"
                   v-model="state.inputtext2"
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-divider class="mb-7"></v-divider>
-            <v-row>
-              <v-col xl="12" cols="12">
-                <h3 class="mb-2" align="left">値</h3>
-                <v-text-field
-                  label="入力してください。"
-                  outlined
-                  dense
-                  class="input-text"
-                  counter="50"
-                  v-model="state.inputtext3"
                 ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <v-btn depressed color="info" @click="clickSample">登録</v-btn>
+                <v-btn depressed color="info" @click="createLink">作成</v-btn>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col v-for="(value, index) in data.url" :key="index">
+                <a
+                  :href="value[1]"
+                  :src="value[1]"
+                  v-if="value != null"
+                  alt="tmp"
+                  >{{ value[0] }}</a
+                >
               </v-col>
             </v-row>
           </v-sheet>
@@ -61,50 +52,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, watch } from "@vue/composition-api";
-import SampleApiService from "../services/SampleApiService";
+import { defineComponent, reactive } from "@vue/composition-api";
+
+type Data = {
+  url: string[][];
+};
 
 export default defineComponent({
-  name: "InputText",
+  name: "CreateLink",
   setup() {
+    const data = reactive<Data>({
+      url: [["vuetify", "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass"]],
+    });
+
     const state = reactive({
-      inputtext1: null,
-      inputtext2: null,
-      inputtext3: null,
+      inputtext1: "",
+      inputtext2: "",
     });
 
-    const isAlert = ref(false);
-
-    watch(isAlert, () => {
-      setTimeout(() => {
-        isAlert.value = false;
-      }, 3000);
-    });
-
-    const clickSample = async () => {
-      // insert APIの実行
-      try {
-        await SampleApiService.insert({
-          id: state.inputtext1,
-          opsdate: state.inputtext2,
-          value: state.inputtext3,
-        });
-        console.log("postok");
-        isAlert.value = true;
-      } catch (error) {
-        console.log("error");
-      }
+    const createLink = (): void => {
+      data.url.push([state.inputtext1, state.inputtext2]);
     };
-
     return {
-      isAlert,
+      data,
       state,
-      clickSample,
+      createLink,
     };
   },
 });
 </script>
-<style>
+<style scoped>
 .input-text {
   width: 700px;
 }
