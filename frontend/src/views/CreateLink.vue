@@ -33,16 +33,12 @@
                 <v-btn depressed color="info" @click="createLink">作成</v-btn>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col v-for="(value, index) in data.url" :key="index">
-                <a
-                  :href="value[1]"
-                  :src="value[1]"
-                  v-if="value != null"
-                  alt="tmp"
-                  >{{ value[0] }}</a
-                >
-              </v-col>
+            <v-row
+              v-for="(value, key, index) in data.link"
+              :key="index"
+              class="ml-2 mb-1"
+            >
+              <a :href="value" :src="value" v-if="value != null">{{ key }}</a>
             </v-row>
           </v-sheet>
         </v-col>
@@ -54,15 +50,14 @@
 <script lang="ts">
 import { defineComponent, reactive } from "@vue/composition-api";
 
-type Data = {
-  url: string[][];
-};
-
 export default defineComponent({
   name: "CreateLink",
   setup() {
-    const data = reactive<Data>({
-      url: [["vuetify", "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass"]],
+    const data = reactive({
+      link: {
+        vuetify: "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass",
+        vuetify2: "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass",
+      } as Record<string, string>,
     });
 
     const state = reactive({
@@ -70,8 +65,12 @@ export default defineComponent({
       inputtext2: "",
     });
 
-    const createLink = (): void => {
-      data.url.push([state.inputtext1, state.inputtext2]);
+    const createLink = () => {
+      const newLink = {
+        ...data.link,
+        [state.inputtext1]: state.inputtext2,
+      };
+      data.link = newLink;
     };
     return {
       data,
