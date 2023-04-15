@@ -38,7 +38,14 @@
               :key="index"
               class="ml-2 mb-1"
             >
-              <a :href="value" :src="value" v-if="value != null">{{ key }}</a>
+              <a
+                :href="value"
+                :src="value"
+                v-if="value != null"
+                target="_blank"
+                rel="noopener noreferrer"
+                >{{ key }}</a
+              >
             </v-row>
           </v-sheet>
         </v-col>
