@@ -1,11 +1,18 @@
 <template>
   <v-container>
     <h3>UserList</h3>
-    {{ items.length }}件
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="displayData"> </v-data-table>
+          <v-data-table :headers="headers" :items="displayData">
+            <template v-slot:item="{ item }">
+              <td @click="handleCellClick()" class="link td-cell py-2 pl-3">
+                <span>{{ item.id }}</span>
+              </td>
+              <td class="link td-cell py-2 pl-4">{{ item.name }}</td>
+              <td class="link td-cell py-2 pl-4">{{ item.age }}</td>
+            </template>
+          </v-data-table>
         </v-sheet>
       </v-col>
     </v-row>
@@ -47,8 +54,13 @@ export default defineComponent({
     const setData = () => {
       items.id = "123";
       items.name = "name";
-      items.age = null;
+      items.age = "123";
     };
+
+    const handleCellClick = () => {
+      console.log("Clicked cell:");
+    };
+
     setData();
     // データのnullを変換して表示データを作成する
     const displayData = computed(() => {
@@ -67,9 +79,26 @@ export default defineComponent({
     return {
       headers,
       items,
+      handleCellClick,
       setData,
       displayData,
     };
   },
 });
 </script>
+
+<style scoped>
+.link {
+  cursor: pointer;
+}
+
+.link:hover span {
+  text-decoration: underline;
+  color: blue;
+}
+
+.td-cell {
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+}
+</style>
