@@ -1,12 +1,20 @@
 <template>
   <v-container>
     <h3>UserList</h3>
+    <v-dialog v-model="dialog" width="auto">
+      <v-card>
+        <v-card-text> test </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" block @click="closeDialog">Close Dialog</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
           <v-data-table :headers="headers" :items="displayData">
             <template v-slot:item="{ item }">
-              <td @click="handleCellClick()" class="link td-cell py-2 pl-3">
+              <td @click="handleCellClick" class="link td-cell py-2 pl-3">
                 <span>{{ item.id }}</span>
               </td>
               <td class="link td-cell py-2 pl-4">{{ item.name }}</td>
@@ -20,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "@vue/composition-api";
+import { defineComponent, reactive, computed, ref } from "@vue/composition-api";
 
 class UserList {
   id?: string | null;
@@ -58,7 +66,13 @@ export default defineComponent({
     };
 
     const handleCellClick = () => {
-      console.log("Clicked cell:");
+      dialog.value = true;
+    };
+
+    const dialog = ref(false);
+
+    const closeDialog = (): void => {
+      dialog.value = false;
     };
 
     setData();
@@ -82,6 +96,8 @@ export default defineComponent({
       handleCellClick,
       setData,
       displayData,
+      dialog,
+      closeDialog,
     };
   },
 });
