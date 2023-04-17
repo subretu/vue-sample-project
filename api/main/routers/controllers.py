@@ -3,7 +3,13 @@ from fastapi import Depends, Body
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
-from main.query import get_date_summary, get_time_summary, delete_id, insert_data
+from main.query import (
+    get_date_summary,
+    get_time_summary,
+    delete_id,
+    insert_data,
+    get_json_data,
+)
 from main.logger.my_logger import logging_function, set_logger
 
 
@@ -95,3 +101,13 @@ def get_task(request: Request, is_first):
         response_data = [{"id": 2, "task": "ファミマに行く", "limitd": "2022-11-01"}]
 
     return JSONResponse(content=response_data)
+
+
+@router.get("/jsondata")
+@logging_function(logger)
+def get_json(request: Request):
+    conn = get_connection()
+    cur = conn.cursor()
+    result_json = get_json_data(cur)
+
+    return JSONResponse(content=result_json)

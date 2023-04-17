@@ -60,5 +60,22 @@ def delete_id(conn, cur, id):
 
 
 def insert_data(conn, cur, input_id, input_opsdate, input_value):
-    cur.execute(f"insert into sample_date_summary2 (id, opsdate, sum_value) values({input_id}, '{input_opsdate}', {input_value});")
+    cur.execute(
+        f"insert into sample_date_summary2 (id, opsdate, sum_value) values({input_id}, '{input_opsdate}', {input_value});"
+    )
     conn.commit()
+
+
+def get_json_data(cur):
+    cur.execute(
+        """
+        select
+            json_data
+        from
+            sample_date_summary2
+        limit 1
+        ;
+        """
+    )
+    rows = cur.fetchall()
+    return rows
