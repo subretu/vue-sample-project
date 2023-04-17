@@ -51,22 +51,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "@vue/composition-api";
+import { defineComponent, reactive, ref } from "@vue/composition-api";
+import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
   name: "CreateLink",
   setup() {
-    const data = reactive({
-      link: {
-        vuetify: "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass",
-        vuetify2: "https://v2.vuetifyjs.com/ja/api/v-text-field/#sass",
-      },
+    interface Data {
+      link: { [key: string]: string } | undefined;
+    }
+
+    const data = reactive<Data>({
+      link: {},
     });
 
     const state = reactive({
       inputtext1: "",
       inputtext2: "",
     });
+
+    const response = ref(null);
+
+    const getData = async () => {
+      // get_json APIの実行
+      try {
+        await SampleApiService.get_json();
+        const res = await SampleApiService.get_json();
+        response.value = res.data;
+        data.link = response.value?.[0][0];
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
     const createLink = () => {
       const newLink = {
@@ -78,6 +94,10 @@ export default defineComponent({
       state.inputtext1 = "";
       state.inputtext2 = "";
     };
+
+    // APIからデータを取得
+    getData();
+
     return {
       data,
       state,

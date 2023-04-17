@@ -17,6 +17,10 @@ class SampleApiService {
   task(is_button: any): Promise<any> {
     return http.get(`/task/${is_button}`);
   }
+
+  get_json(): Promise<any> {
+    return http.get("/jsondata");
+  }
 }
 
 export default new SampleApiService();

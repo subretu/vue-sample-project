@@ -16,6 +16,9 @@ module.exports = defineConfig({
       "/task": {
         target: "http://localhost:8000",
       },
+      "/jsondata": {
+        target: "http://localhost:8000",
+      },
     },
   },
   publicPath: "./",
