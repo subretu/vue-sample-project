@@ -12,13 +12,15 @@
     <v-row>
       <v-col cols="10">
         <v-sheet color="white" elevation="1">
-          <v-data-table :headers="headers" :items="displayData">
-            <template v-slot:item="{ item }">
-              <td @click="handleCellClick" class="link td-cell py-2 pl-3">
+          <v-data-table
+            :headers="headers"
+            :items="displayData"
+            class="elevation-0"
+          >
+            <template v-slot:[`item.id`]="{ item }">
+              <td @click="handleCellClick" class="link td-cell">
                 <span>{{ item.id }}</span>
               </td>
-              <td class="link td-cell py-2 pl-4">{{ item.name }}</td>
-              <td class="link td-cell py-2 pl-4">{{ item.age }}</td>
             </template>
           </v-data-table>
         </v-sheet>
