@@ -18,7 +18,7 @@
             class="elevation-0"
           >
             <template v-slot:[`item.id`]="{ item }">
-              <td @click="handleCellClick" class="link td-cell">
+              <td @click="handleCellClick(item)" class="link td-cell">
                 <span>{{ item.id }}</span>
               </td>
             </template>
@@ -67,7 +67,8 @@ export default defineComponent({
       items.age = "123";
     };
 
-    const handleCellClick = () => {
+    const handleCellClick = (item: any) => {
+      console.log(item);
       dialog.value = true;
     };
 
