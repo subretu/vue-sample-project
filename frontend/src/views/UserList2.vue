@@ -3,7 +3,7 @@
     <h3>UserList</h3>
     <v-dialog v-model="dialog" width="auto">
       <v-card>
-        <v-card-text> test </v-card-text>
+        <v-card-text> {{ dialogData }} </v-card-text>
         <v-card-actions>
           <v-btn color="primary" block @click="closeDialog">Close Dialog</v-btn>
         </v-card-actions>
@@ -63,12 +63,15 @@ export default defineComponent({
     // 初期値のセットアップ
     const setData = () => {
       items.id = "123";
-      items.name = "name";
+      items.name = "kenji";
       items.age = "123";
     };
 
+    const dialogData = ref("");
+
     const handleCellClick = (item: any) => {
       console.log(item);
+      dialogData.value = item.name;
       dialog.value = true;
     };
 
@@ -99,6 +102,7 @@ export default defineComponent({
       handleCellClick,
       setData,
       displayData,
+      dialogData,
       dialog,
       closeDialog,
     };
