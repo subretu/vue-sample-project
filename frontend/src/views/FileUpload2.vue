@@ -36,6 +36,24 @@
                 </v-btn>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col>
+                <h4 class="mb-5">ファイル</h4>
+                <p>
+                  <input
+                    type="file"
+                    @change="onFileSelected"
+                    accept=".pdf"
+                    multiple
+                  />
+                </p>
+              </v-col>
+            </v-row>
+            <v-row>
+              <div v-if="pdfSrc">
+                <a :href="pdfSrc" target="_blank">{{ fileName }}</a>
+              </div>
+            </v-row>
           </v-sheet>
         </v-col>
       </v-row>
@@ -44,7 +62,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, defineComponent } from "@vue/composition-api";
+import { reactive, defineComponent, ref } from "@vue/composition-api";
+import pdfjsLib from "pdfjs-dist/webpack";
 
 type Data2 = {
   imageUrl: string[];
@@ -96,10 +115,31 @@ export default defineComponent({
       data2.imageUrl.splice(index, 1);
     };
 
+    const pdfSrc = ref("");
+    const fileName = ref("");
+
+    const onFileSelected = async (event: Event) => {
+      const selectedFile = event.target;
+      if (!(selectedFile instanceof HTMLInputElement)) return;
+      if (selectedFile.files == null || selectedFile.files.length == 0) {
+        return;
+      }
+      fileName.value = selectedFile.files[0].name;
+      pdfSrc.value = URL.createObjectURL(selectedFile.files[0]);
+
+      const loadingTask = pdfjsLib.getDocument(pdfSrc.value);
+      const pdf = await loadingTask.promise;
+      const numPages = pdf.numPages;
+      console.log(`Number of Pages: ${numPages}`);
+    };
+
     return {
       load_image,
       data2,
       deletePreview,
+      pdfSrc,
+      fileName,
+      onFileSelected,
     };
   },
 });
