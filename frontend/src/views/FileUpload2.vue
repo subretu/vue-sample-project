@@ -49,10 +49,12 @@
                 </p>
               </v-col>
             </v-row>
-            <v-row>
-              <div v-if="pdfSrc">
-                <a :href="pdfSrc" target="_blank">{{ fileName }}</a>
-              </div>
+            <v-row v-if="fileUrls.fileUrl">
+              <v-col v-for="(fileUrl, index) in fileUrls.fileUrl" :key="index">
+                <a :href="fileUrl" target="_blank">{{
+                  fileNames.filename[index]
+                }}</a>
+              </v-col>
             </v-row>
           </v-sheet>
         </v-col>
@@ -67,6 +69,14 @@ import pdfjsLib from "pdfjs-dist/webpack";
 
 type Data2 = {
   imageUrl: string[];
+};
+
+type fileUrlData = {
+  fileUrl: string[];
+};
+
+type fileNameData = {
+  filename: string[];
 };
 
 const get_data_url = async (file: File): Promise<string> => {
@@ -89,6 +99,14 @@ export default defineComponent({
   setup() {
     const data2 = reactive<Data2>({
       imageUrl: [],
+    });
+
+    const fileUrls = reactive<fileUrlData>({
+      fileUrl: [],
+    });
+
+    const fileNames = reactive<fileNameData>({
+      filename: [],
     });
 
     const load_image = async (event: Event) => {
@@ -124,18 +142,26 @@ export default defineComponent({
       if (selectedFile.files == null || selectedFile.files.length == 0) {
         return;
       }
-      fileName.value = selectedFile.files[0].name;
-      pdfSrc.value = URL.createObjectURL(selectedFile.files[0]);
 
-      const loadingTask = pdfjsLib.getDocument(pdfSrc.value);
-      const pdf = await loadingTask.promise;
-      const numPages = pdf.numPages;
-      console.log(`Number of Pages: ${numPages}`);
+      //fileName.value = selectedFile.files[0].name;
+      //pdfSrc.value = URL.createObjectURL(selectedFile.files[0]);
+
+      for (let i = 0; i < selectedFile.files.length; i++) {
+        try {
+          fileUrls.fileUrl.push(URL.createObjectURL(selectedFile.files[i]));
+          fileNames.filename.push(selectedFile.files[i].name);
+        } catch (e) {
+          alert(`ERROR: ${e}`);
+        }
+      }
+      selectedFile.value = "";
     };
 
     return {
       load_image,
       data2,
+      fileUrls,
+      fileNames,
       deletePreview,
       pdfSrc,
       fileName,
