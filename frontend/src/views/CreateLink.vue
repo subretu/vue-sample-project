@@ -5,7 +5,7 @@
         <v-col cols="12">
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
-              <v-col xl="12" cols="5">
+              <v-col cols="5">
                 <h3 class="mb-2" align="left">タイトル</h3>
                 <v-text-field
                   label="入力してください。"
@@ -15,7 +15,7 @@
                   v-model="state.inputtext1"
                 ></v-text-field>
               </v-col>
-              <v-col xl="12" cols="5">
+              <v-col cols="5">
                 <h3 class="mb-2" align="left">URL</h3>
                 <v-text-field
                   label="入力してください。"
@@ -25,7 +25,7 @@
                   v-model="state.inputtext2"
                 ></v-text-field>
               </v-col>
-              <v-col class="mt-9" cols="1">
+              <v-col class="mt-9" cols="1" align="left">
                 <v-btn depressed color="info" @click="createLink">作成</v-btn>
               </v-col>
             </v-row>
