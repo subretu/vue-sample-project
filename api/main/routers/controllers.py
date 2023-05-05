@@ -1,6 +1,5 @@
 from starlette.requests import Request
-from fastapi import Depends, Body
-from fastapi import APIRouter
+from fastapi import Depends, Body, HTTPException, APIRouter
 from fastapi.responses import JSONResponse
 from main.connection import get_connection
 from main.query import (
@@ -123,5 +122,8 @@ def get_member_name(request: Request, id):
 
     cur.close()
     conn.close()
+
+    if len(result_json) == 0:
+        raise HTTPException(status_code=400, detail="存在しないIDです。")
 
     return JSONResponse(content=result_json)

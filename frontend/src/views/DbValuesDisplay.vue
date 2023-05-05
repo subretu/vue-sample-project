@@ -67,13 +67,10 @@ export default defineComponent({
     const getMemberName = async (inputText: string) => {
       try {
         const res = await SampleApiService.get_member_name(inputText);
-        if (res.data.length !== 0) {
-          state.inputtext2 = res.data?.[0];
-        } else {
-          state.inputtext2 = "登録されていないIDです。";
-        }
-      } catch (err) {
-        console.log(err);
+        state.inputtext2 = res.data?.[0];
+      } catch (err: any) {
+        console.log(JSON.parse(err.request.response).detail);
+        state.inputtext2 = "登録されていないIDです。";
       }
     };
 
