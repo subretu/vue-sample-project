@@ -60,6 +60,11 @@ const routes: Array<RouteConfig> = [
     name: "createlink",
     component: () => import("../views/CreateLink.vue"),
   },
+  {
+    path: "/dbvaluesdisplay",
+    name: "dbvaluesdisplay",
+    component: () => import("../views/DbValuesDisplay.vue"),
+  },
 ];
 
 const router = new VueRouter({
