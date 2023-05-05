@@ -111,3 +111,16 @@ def get_json(request: Request):
     result_json = get_json_data(cur)
 
     return JSONResponse(content=result_json)
+
+
+@router.get("/get_member/{id}")
+@logging_function(logger)
+def get_member_name(request: Request, id):
+    conn = get_connection()
+    cur = conn.cursor()
+    result_json = get_member_name(cur, id)
+
+    cur.close()
+    conn.close()
+
+    return JSONResponse(content=result_json)
