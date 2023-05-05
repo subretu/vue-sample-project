@@ -9,6 +9,7 @@ from main.query import (
     delete_id,
     insert_data,
     get_json_data,
+    get_member_name_data,
 )
 from main.logger.my_logger import logging_function, set_logger
 
@@ -118,7 +119,7 @@ def get_json(request: Request):
 def get_member_name(request: Request, id):
     conn = get_connection()
     cur = conn.cursor()
-    result_json = get_member_name(cur, id)
+    result_json = get_member_name_data(conn, cur, id)
 
     cur.close()
     conn.close()

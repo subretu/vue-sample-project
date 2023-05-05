@@ -81,7 +81,7 @@ def get_json_data(cur):
     return rows
 
 
-def get_member_name(conn, cur, id):
-    cur.execute(f"select name from members where member_id = '{id}';")
+def get_member_name_data(conn, cur, id):
+    cur.execute(f"select name from members where member_id = {id};")
     rows = cur.fetchall()
     return rows
