@@ -21,6 +21,10 @@ class SampleApiService {
   get_json(): Promise<any> {
     return http.get("/jsondata");
   }
+
+  get_member_name(id: any): Promise<any> {
+    return http.get(`/get_member/${id}`);
+  }
 }
 
 export default new SampleApiService();

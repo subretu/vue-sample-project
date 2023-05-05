@@ -6,42 +6,34 @@
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
               <v-col cols="5">
-                <h3 class="mb-2" align="left">タイトル</h3>
+                <h3 class="mb-2" align="left">Member ID</h3>
                 <v-text-field
                   label="入力してください。"
                   outlined
                   dense
                   class="input-text"
                   v-model="state.inputtext1"
+                  :rules="[requiredValidation, limitLengthValidation]"
                 ></v-text-field>
               </v-col>
               <v-col cols="5">
-                <h3 class="mb-2" align="left">URL</h3>
+                <h3 class="mb-2" align="left">Member Name</h3>
                 <v-text-field
-                  label="入力してください。"
                   outlined
                   dense
                   class="input-text"
                   v-model="state.inputtext2"
                 ></v-text-field>
               </v-col>
-              <v-col class="mt-9" cols="1" align="left">
-                <v-btn depressed color="info" @click="createLink">作成</v-btn>
+              <v-col cols="1" class="mt-9" align="left">
+                <v-btn
+                  depressed
+                  color="info"
+                  :disabled="!mytext"
+                  @click="getMemberName(state.inputtext1)"
+                  >DB連携</v-btn
+                >
               </v-col>
-            </v-row>
-            <v-row
-              v-for="(value, key, index) in data.link"
-              :key="index"
-              class="ml-2 mb-1"
-            >
-              <a
-                :href="value"
-                :src="value"
-                v-if="value != null"
-                target="_blank"
-                rel="noopener noreferrer"
-                >{{ key }}</a
-              >
             </v-row>
           </v-sheet>
         </v-col>
@@ -51,57 +43,54 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "@vue/composition-api";
+import { defineComponent, reactive, computed } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
   name: "CreateLink",
   setup() {
-    interface Data {
-      link: { [key: string]: string } | undefined;
-    }
-
-    const data = reactive<Data>({
-      link: {},
-    });
-
-    const state = reactive({
+    const state = reactive<{
+      inputtext1: string;
+      inputtext2: string;
+    }>({
       inputtext1: "",
       inputtext2: "",
     });
 
-    const response = ref(null);
+    // バリデーション関数
+    const requiredValidation = (value: any) =>
+      !!value || "必ず入力してください";
 
-    const getData = async () => {
-      // get_json APIの実行
+    const limitLengthValidation = (value: any) =>
+      !isNaN(value) || "半角数字を入力してください";
+
+    const getMemberName = async (inputText: string) => {
       try {
-        await SampleApiService.get_json();
-        const res = await SampleApiService.get_json();
-        response.value = res.data;
-        data.link = response.value?.[0][0];
+        const res = await SampleApiService.get_member_name(inputText);
+        if (res.data.length !== 0) {
+          state.inputtext2 = res.data?.[0];
+        } else {
+          state.inputtext2 = "登録されていないIDです。";
+        }
       } catch (err) {
         console.log(err);
       }
     };
 
-    const createLink = () => {
-      const newLink = {
-        ...data.link,
-        [state.inputtext1]: state.inputtext2,
-      };
-      data.link = newLink;
-
-      state.inputtext1 = "";
-      state.inputtext2 = "";
-    };
-
-    // APIからデータを取得
-    getData();
+    // バリデーションを通過すればボタンをクリック可能
+    const mytext = computed(() => {
+      return (
+        requiredValidation(state.inputtext1) === true &&
+        limitLengthValidation(state.inputtext1) === true
+      );
+    });
 
     return {
-      data,
       state,
-      createLink,
+      mytext,
+      requiredValidation,
+      limitLengthValidation,
+      getMemberName,
     };
   },
 });

@@ -19,6 +19,9 @@ module.exports = defineConfig({
       "/jsondata": {
         target: "http://localhost:8000",
       },
+      "/get_member": {
+        target: "http://localhost:8000",
+      },
     },
   },
   publicPath: "./",
