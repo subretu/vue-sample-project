@@ -5,28 +5,10 @@
         <v-col cols="12">
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
-              <v-col cols="5">
-                <h3 class="mb-2" align="left">タイトル</h3>
-                <v-text-field
-                  label="入力してください。"
-                  outlined
-                  dense
-                  class="input-text"
-                  v-model="state.inputtext1"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="5">
-                <h3 class="mb-2" align="left">URL</h3>
-                <v-text-field
-                  label="入力してください。"
-                  outlined
-                  dense
-                  class="input-text"
-                  v-model="state.inputtext2"
-                ></v-text-field>
-              </v-col>
-              <v-col class="mt-9" cols="1" align="left">
-                <v-btn depressed color="info" @click="createLink">作成</v-btn>
+              <v-col cols="1" align="left">
+                <v-btn depressed color="info" @click="createLink"
+                  >リンク作成</v-btn
+                >
               </v-col>
             </v-row>
             <v-row
@@ -46,6 +28,40 @@
           </v-sheet>
         </v-col>
       </v-row>
+      <v-dialog v-model="show" width="auto">
+        <v-card>
+          <v-card-title />
+          <v-row>
+            <v-col>
+              <h3 class="mb-2 ml-3" align="left">タイトル</h3>
+              <v-text-field
+                label="入力してください。"
+                outlined
+                dense
+                class="input-text ml-3 mr-3"
+                v-model="state.inputtext1"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <h3 class="mb-2 ml-3" align="left">URL</h3>
+              <v-text-field
+                label="入力してください。"
+                outlined
+                dense
+                class="input-text ml-3 mr-3"
+                v-model="state.inputtext2"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-card-actions>
+            <v-btn color="info" depressed align="right" @click="createLink"
+              >作成</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-form>
 </template>
@@ -72,6 +88,8 @@ export default defineComponent({
 
     const response = ref(null);
 
+    const show = ref(false);
+
     const getData = async () => {
       // get_json APIの実行
       try {
@@ -85,6 +103,7 @@ export default defineComponent({
     };
 
     const createLink = () => {
+      show.value = true;
       const newLink = {
         ...data.link,
         [state.inputtext1]: state.inputtext2,
@@ -101,6 +120,7 @@ export default defineComponent({
     return {
       data,
       state,
+      show,
       createLink,
     };
   },
@@ -108,6 +128,6 @@ export default defineComponent({
 </script>
 <style scoped>
 .input-text {
-  width: 700px;
+  width: 800px;
 }
 </style>
