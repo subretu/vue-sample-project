@@ -28,7 +28,10 @@
           </v-sheet>
         </v-col>
       </v-row>
-      <LinkInputDialog :openStatus="openStatus.value"></LinkInputDialog>
+      <LinkInputDialog
+        :openStatus="openStatus.value"
+        @OpenStatusRequest="updateDialogStatusHandler"
+      ></LinkInputDialog>
     </v-container>
   </v-form>
 </template>
@@ -90,6 +93,10 @@ export default defineComponent({
       value: boolean | undefined;
     }>({ value: false });
 
+    const updateDialogStatusHandler = (status: boolean): void => {
+      openStatus.value = status;
+    };
+
     // APIからデータを取得
     getData();
 
@@ -98,6 +105,7 @@ export default defineComponent({
       state,
       show,
       openStatus,
+      updateDialogStatusHandler,
       createLink,
     };
   },

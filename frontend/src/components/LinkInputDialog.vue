@@ -40,7 +40,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from "@vue/composition-api";
+import {
+  defineComponent,
+  reactive,
+  ref,
+  computed,
+  SetupContext,
+} from "@vue/composition-api";
 
 export default defineComponent({
   name: "LinkInputDialog",
@@ -49,14 +55,14 @@ export default defineComponent({
     openStatus: { type: Boolean },
   },
 
-  setup(props) {
+  setup(props, context: SetupContext) {
     interface Data {
       link: { [key: string]: string } | undefined;
     }
 
     const openStatus2 = computed({
       get: () => props.openStatus,
-      set: (xx) => props.openStatus,
+      set: (value: boolean) => context.emit("OpenStatusRequest", value),
     });
 
     const data = reactive<Data>({
