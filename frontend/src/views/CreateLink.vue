@@ -31,6 +31,9 @@
       <LinkInputDialog
         :openStatus="openStatus.value"
         @OpenStatusRequest="updateDialogStatusHandler"
+        @input1="handleInput"
+        @input2="handleInput2"
+        @parentFunction="parentFunction"
       ></LinkInputDialog>
     </v-container>
   </v-form>
@@ -55,14 +58,12 @@ export default defineComponent({
       link: {},
     });
 
-    const state = reactive({
+    const state2 = reactive({
       inputtext1: "",
       inputtext2: "",
     });
 
     const response = ref(null);
-
-    const show = ref(false);
 
     const getData = async () => {
       // get_json APIの実行
@@ -77,15 +78,40 @@ export default defineComponent({
     };
 
     const createLink = () => {
-      show.value = true;
       const newLink = {
         ...data.link,
-        [state.inputtext1]: state.inputtext2,
+        [state2.inputtext1]: state2.inputtext2,
       };
       data.link = newLink;
 
-      state.inputtext1 = "";
-      state.inputtext2 = "";
+      state2.inputtext1 = "";
+      state2.inputtext2 = "";
+    };
+
+    const state3 = reactive({
+      inputtext1: "",
+      inputtext2: "",
+    });
+
+    const handleInput = (inputValue: string) => {
+      state3.inputtext1 = inputValue;
+    };
+
+    const handleInput2 = (inputValue: string) => {
+      state3.inputtext2 = inputValue;
+    };
+
+    const parentFunction = () => {
+      openStatus.value = false;
+
+      const newLink = {
+        ...data.link,
+        [state3.inputtext1]: state3.inputtext2,
+      };
+      data.link = newLink;
+
+      state2.inputtext1 = "";
+      state2.inputtext2 = "";
     };
 
     //const openStatus = ref(false);
@@ -102,11 +128,14 @@ export default defineComponent({
 
     return {
       data,
-      state,
-      show,
+      state2,
       openStatus,
       updateDialogStatusHandler,
+      state3,
+      handleInput,
+      handleInput2,
       createLink,
+      parentFunction,
     };
   },
 });

@@ -13,6 +13,7 @@
                 dense
                 class="input-text ml-3 mr-3"
                 v-model="state.inputtext1"
+                @input="emitInput"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -25,6 +26,7 @@
                 dense
                 class="input-text ml-3 mr-3"
                 v-model="state.inputtext2"
+                @input="emitInput2"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -43,7 +45,6 @@
 import {
   defineComponent,
   reactive,
-  ref,
   computed,
   SetupContext,
 } from "@vue/composition-api";
@@ -74,25 +75,24 @@ export default defineComponent({
       inputtext2: "",
     });
 
-    const show = ref(false);
+    const emitInput = () => {
+      context.emit("input1", state.inputtext1);
+    };
+
+    const emitInput2 = () => {
+      context.emit("input2", state.inputtext2);
+    };
 
     const createLink = () => {
-      show.value = true;
-      const newLink = {
-        ...data.link,
-        [state.inputtext1]: state.inputtext2,
-      };
-      data.link = newLink;
-
-      state.inputtext1 = "";
-      state.inputtext2 = "";
+      context.emit("parentFunction");
     };
 
     return {
       data,
       state,
-      show,
       openStatus2,
+      emitInput,
+      emitInput2,
       createLink,
     };
   },
