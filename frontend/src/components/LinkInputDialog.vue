@@ -57,17 +57,9 @@ export default defineComponent({
   },
 
   setup(props, context: SetupContext) {
-    interface Data {
-      link: { [key: string]: string } | undefined;
-    }
-
     const openStatus2 = computed({
       get: () => props.openStatus,
       set: (value: boolean) => context.emit("OpenStatusRequest", value),
-    });
-
-    const data = reactive<Data>({
-      link: {},
     });
 
     const state = reactive({
@@ -85,10 +77,11 @@ export default defineComponent({
 
     const createLink = () => {
       context.emit("parentFunction");
+      state.inputtext1 = "";
+      state.inputtext2 = "";
     };
 
     return {
-      data,
       state,
       openStatus2,
       emitInput,

@@ -58,11 +58,6 @@ export default defineComponent({
       link: {},
     });
 
-    const state2 = reactive({
-      inputtext1: "",
-      inputtext2: "",
-    });
-
     const response = ref(null);
 
     const getData = async () => {
@@ -75,17 +70,6 @@ export default defineComponent({
       } catch (err) {
         console.log(err);
       }
-    };
-
-    const createLink = () => {
-      const newLink = {
-        ...data.link,
-        [state2.inputtext1]: state2.inputtext2,
-      };
-      data.link = newLink;
-
-      state2.inputtext1 = "";
-      state2.inputtext2 = "";
     };
 
     const state3 = reactive({
@@ -109,12 +93,8 @@ export default defineComponent({
         [state3.inputtext1]: state3.inputtext2,
       };
       data.link = newLink;
-
-      state2.inputtext1 = "";
-      state2.inputtext2 = "";
     };
 
-    //const openStatus = ref(false);
     const openStatus = reactive<{
       value: boolean | undefined;
     }>({ value: false });
@@ -128,13 +108,11 @@ export default defineComponent({
 
     return {
       data,
-      state2,
       openStatus,
       updateDialogStatusHandler,
       state3,
       handleInput,
       handleInput2,
-      createLink,
       parentFunction,
     };
   },
