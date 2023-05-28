@@ -12,18 +12,19 @@
               </v-col>
             </v-row>
             <v-row
-              v-for="(value, key, index) in data.link"
-              :key="index"
               class="ml-2 mb-1"
+              v-for="linkItem in filteredLinks"
+              :key="linkItem.key"
             >
               <a
-                :href="value"
-                :src="value"
-                v-if="value != null"
+                :key="linkItem.key"
+                :href="linkItem.value"
+                :src="linkItem.value"
                 target="_blank"
                 rel="noopener noreferrer"
-                >{{ key }}</a
               >
+                {{ linkItem.key }}
+              </a>
             </v-row>
           </v-sheet>
         </v-col>
@@ -39,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from "@vue/composition-api";
+import { defineComponent, reactive, ref, computed } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 import LinkInputDialog from "../components/LinkInputDialog.vue";
 
@@ -49,13 +50,11 @@ export default defineComponent({
   components: { LinkInputDialog },
 
   setup() {
-    interface Data {
-      link: { [key: string]: string } | undefined;
+    interface LinkObject {
+      [key: string]: string | undefined;
     }
 
-    const data = reactive<Data>({
-      link: {},
-    });
+    const data = ref<LinkObject[]>([]);
 
     const response = ref(null);
 
@@ -65,7 +64,9 @@ export default defineComponent({
         await SampleApiService.get_json();
         const res = await SampleApiService.get_json();
         response.value = res.data;
-        data.link = response.value?.[0][0];
+        if (response.value?.[0][0] !== undefined) {
+          data.value.push(response.value?.[0][0]);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -83,12 +84,7 @@ export default defineComponent({
 
     const displayLink = () => {
       openStatus.value = false;
-
-      const newLink = {
-        ...data.link,
-        [state.inputtext1]: state.inputtext2,
-      };
-      data.link = newLink;
+      data.value.push({ [state.inputtext1]: state.inputtext2 });
     };
 
     const openStatus = reactive<{
@@ -98,6 +94,16 @@ export default defineComponent({
     const updateDialogStatusHandler = (status: boolean): void => {
       openStatus.value = status;
     };
+
+    const filteredLinks = computed(() => {
+      return data.value
+        .map((linkItem) => {
+          const key = Object.keys(linkItem)[0];
+          const value = linkItem[key];
+          return { key, value };
+        })
+        .filter((linkItem) => linkItem.value !== undefined);
+    });
 
     // APIからデータを取得
     getData();
@@ -109,6 +115,7 @@ export default defineComponent({
       state,
       handleInput,
       displayLink,
+      filteredLinks,
     };
   },
 });
