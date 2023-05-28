@@ -31,9 +31,8 @@
       <LinkInputDialog
         :openStatus="openStatus.value"
         @OpenStatusRequest="updateDialogStatusHandler"
-        @input1="handleInput"
-        @input2="handleInput2"
-        @parentFunction="parentFunction"
+        @input="handleInput"
+        @displayLink="displayLink"
       ></LinkInputDialog>
     </v-container>
   </v-form>
@@ -72,25 +71,22 @@ export default defineComponent({
       }
     };
 
-    const state3 = reactive({
+    const state = reactive({
       inputtext1: "",
       inputtext2: "",
     });
 
-    const handleInput = (inputValue: string) => {
-      state3.inputtext1 = inputValue;
+    const handleInput = (inputObject: { [key: string]: string }) => {
+      state.inputtext1 = inputObject.inputtext1;
+      state.inputtext2 = inputObject.inputtext2;
     };
 
-    const handleInput2 = (inputValue: string) => {
-      state3.inputtext2 = inputValue;
-    };
-
-    const parentFunction = () => {
+    const displayLink = () => {
       openStatus.value = false;
 
       const newLink = {
         ...data.link,
-        [state3.inputtext1]: state3.inputtext2,
+        [state.inputtext1]: state.inputtext2,
       };
       data.link = newLink;
     };
@@ -110,10 +106,9 @@ export default defineComponent({
       data,
       openStatus,
       updateDialogStatusHandler,
-      state3,
+      state,
       handleInput,
-      handleInput2,
-      parentFunction,
+      displayLink,
     };
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <v-form>
     <v-container>
-      <v-dialog v-model="openStatus2" width="auto">
+      <v-dialog v-model="dialogOpenStatus" width="auto">
         <v-card>
           <v-card-title />
           <v-row>
@@ -26,7 +26,7 @@
                 dense
                 class="input-text ml-3 mr-3"
                 v-model="state.inputtext2"
-                @input="emitInput2"
+                @input="emitInput"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -57,7 +57,7 @@ export default defineComponent({
   },
 
   setup(props, context: SetupContext) {
-    const openStatus2 = computed({
+    const dialogOpenStatus = computed({
       get: () => props.openStatus,
       set: (value: boolean) => context.emit("OpenStatusRequest", value),
     });
@@ -68,24 +68,19 @@ export default defineComponent({
     });
 
     const emitInput = () => {
-      context.emit("input1", state.inputtext1);
-    };
-
-    const emitInput2 = () => {
-      context.emit("input2", state.inputtext2);
+      context.emit("input", state);
     };
 
     const createLink = () => {
-      context.emit("parentFunction");
+      context.emit("displayLink");
       state.inputtext1 = "";
       state.inputtext2 = "";
     };
 
     return {
       state,
-      openStatus2,
+      dialogOpenStatus,
       emitInput,
-      emitInput2,
       createLink,
     };
   },
