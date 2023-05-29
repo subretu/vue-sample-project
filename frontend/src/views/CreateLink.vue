@@ -35,6 +35,9 @@
         @input="handleInput"
         @displayLink="displayLink"
       ></LinkInputDialog>
+      <v-overlay :value="state.isLoading">
+        <v-progress-circular indeterminate size="64" />
+      </v-overlay>
     </v-container>
   </v-form>
 </template>
@@ -58,24 +61,27 @@ export default defineComponent({
 
     const response = ref(null);
 
+    const state = reactive({
+      inputtext1: "",
+      inputtext2: "",
+      isLoading: false,
+    });
+
     const getData = async () => {
+      state.isLoading = true;
       // get_json APIの実行
       try {
-        await SampleApiService.get_json();
+        SampleApiService.get_json();
         const res = await SampleApiService.get_json();
         response.value = res.data;
         if (response.value?.[0][0] !== undefined) {
           data.value.push(response.value?.[0][0]);
+          state.isLoading = false;
         }
       } catch (err) {
         console.log(err);
       }
     };
-
-    const state = reactive({
-      inputtext1: "",
-      inputtext2: "",
-    });
 
     const handleInput = (inputObject: { [key: string]: string }) => {
       state.inputtext1 = inputObject.inputtext1;
