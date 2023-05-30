@@ -6,7 +6,7 @@
           <v-sheet color="white" elevation="1" class="pa-2">
             <v-row>
               <v-col cols="1" align="left">
-                <v-btn depressed color="info" @click="openStatus.value = true"
+                <v-btn depressed color="info" @click="openStatusChange"
                   >リンク作成</v-btn
                 >
               </v-col>
@@ -97,6 +97,10 @@ export default defineComponent({
       value: boolean | undefined;
     }>({ value: false });
 
+    const openStatusChange = () => {
+      openStatus.value = true;
+    };
+
     const updateDialogStatusHandler = (status: boolean): void => {
       openStatus.value = status;
     };
@@ -117,6 +121,7 @@ export default defineComponent({
     return {
       data,
       openStatus,
+      openStatusChange,
       updateDialogStatusHandler,
       state,
       handleInput,

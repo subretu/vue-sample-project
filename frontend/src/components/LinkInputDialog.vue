@@ -47,6 +47,7 @@ import {
   reactive,
   computed,
   SetupContext,
+  watch,
 } from "@vue/composition-api";
 
 export default defineComponent({
@@ -76,6 +77,16 @@ export default defineComponent({
       state.inputtext1 = "";
       state.inputtext2 = "";
     };
+
+    watch(
+      () => dialogOpenStatus.value,
+      (openStatus) => {
+        if (openStatus) {
+          state.inputtext1 = "";
+          state.inputtext2 = "";
+        }
+      }
+    );
 
     return {
       state,
