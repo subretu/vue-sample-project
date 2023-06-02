@@ -50,7 +50,8 @@
               </v-col>
             </v-row>
             <v-row v-if="fileUrls.fileUrl">
-              <v-col v-for="(fileUrl, index) in fileUrls.fileUrl" :key="index">
+              <v-col v-for="(fileUrl, index) in fileUrls.fileUrl" :key="index"
+                ><v-icon>mdi-file-pdf-box</v-icon>
                 <a :href="fileUrl" target="_blank">{{
                   fileNames.filename[index]
                 }}</a>
