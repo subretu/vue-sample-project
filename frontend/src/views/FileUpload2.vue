@@ -26,13 +26,12 @@
                   style="max-width: 300px; border: solid 1px black"
                 />
                 <v-btn
-                  class="mx-2"
+                  class="mx-2 delete-btn"
                   fab
-                  small
                   depressed
                   @click="deletePreview(index)"
                 >
-                  <v-icon> mdi-minus </v-icon>
+                  <v-icon x-small> mdi-minus </v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -175,7 +174,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -183,5 +182,9 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.delete-btn {
+  width: 25px;
+  height: 25px;
 }
 </style>
