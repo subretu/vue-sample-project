@@ -27,11 +27,12 @@
                 />
                 <v-btn
                   class="mx-2 delete-btn"
+                  color="black"
                   fab
                   depressed
                   @click="deletePreview(index)"
                 >
-                  <v-icon x-small> mdi-minus </v-icon>
+                  <v-icon x-small> mdi-close </v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -184,6 +185,8 @@ export default defineComponent({
   margin-top: 60px;
 }
 .delete-btn {
+  background-color: black;
+  color: white;
   width: 25px;
   height: 25px;
 }
