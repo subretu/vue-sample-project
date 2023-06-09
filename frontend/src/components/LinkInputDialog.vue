@@ -8,7 +8,7 @@
             <v-col>
               <h3 class="mb-2 ml-3" align="left">タイトル</h3>
               <v-text-field
-                label="入力してください。"
+                label="タイトルを入力してください"
                 outlined
                 dense
                 class="input-text ml-3 mr-3"
@@ -21,7 +21,8 @@
             <v-col>
               <h3 class="mb-2 ml-3" align="left">URL</h3>
               <v-text-field
-                label="入力してください。"
+                label="URLを入力してください"
+                placeholder="https://"
                 outlined
                 dense
                 class="input-text ml-3 mr-3"
@@ -31,7 +32,12 @@
             </v-col>
           </v-row>
           <v-card-actions>
-            <v-btn color="info" depressed align="right" @click="createLink"
+            <v-btn
+              color="info"
+              depressed
+              align="right"
+              @click="createLink"
+              :disabled="!mytext"
               >作成</v-btn
             >
           </v-card-actions>
@@ -78,6 +84,11 @@ export default defineComponent({
       state.inputtext2 = "";
     };
 
+    // 両方に入力があればボタンをクリック可能
+    const mytext = computed(() => {
+      return state.inputtext1 && state.inputtext2;
+    });
+
     watch(
       () => dialogOpenStatus.value,
       (openStatus) => {
@@ -93,6 +104,7 @@ export default defineComponent({
       dialogOpenStatus,
       emitInput,
       createLink,
+      mytext,
     };
   },
 });
