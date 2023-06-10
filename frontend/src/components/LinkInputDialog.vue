@@ -1,11 +1,11 @@
 <template>
   <v-form>
     <v-container>
-      <v-dialog v-model="dialogOpenStatus" width="auto">
+      <v-dialog v-model="dialogOpenStatus" width="550">
         <v-card>
           <v-card-title />
-          <v-row>
-            <v-col>
+          <v-row no-gutters>
+            <v-col cols="12">
               <h3 class="mb-2 ml-3" align="left">タイトル</h3>
               <v-text-field
                 label="タイトルを入力してください"
@@ -16,9 +16,7 @@
                 @input="emitInput"
               ></v-text-field>
             </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
+            <v-col cols="12">
               <h3 class="mb-2 ml-3" align="left">URL</h3>
               <v-text-field
                 label="URLを入力してください"
@@ -111,6 +109,7 @@ export default defineComponent({
 </script>
 <style scoped>
 .input-text {
-  width: 800px;
+  width: 500px;
+  max-width: 500px !important;
 }
 </style>
