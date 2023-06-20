@@ -1,49 +1,51 @@
 <template>
-  <v-form>
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-sheet color="white" elevation="1" class="pa-2">
-            <v-row>
-              <v-col cols="5">
-                <h3 class="mb-2" align="left">Member ID</h3>
-                <v-text-field
-                  label="入力してください。"
-                  outlined
-                  dense
-                  class="input-text"
-                  v-model="state.inputtext1"
-                  :rules="[requiredValidation, limitLengthValidation]"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="5">
-                <h3 class="mb-2" align="left">Member Name</h3>
-                <v-text-field
-                  outlined
-                  dense
-                  class="input-text"
-                  v-model="state.inputtext2"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="1" class="mt-9" align="left">
-                <v-btn
-                  depressed
-                  color="info"
-                  :disabled="!mytext"
-                  @click="getMemberName(state.inputtext1)"
-                  >DB連携</v-btn
-                >
-              </v-col>
-            </v-row>
-          </v-sheet>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-form>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-sheet color="white" elevation="1" class="pa-2">
+          <v-row>
+            <v-col cols="5">
+              <h3 class="mb-2" align="left">Member ID</h3>
+              <v-text-field
+                label="入力してください。"
+                outlined
+                dense
+                class="input-text"
+                v-model="state.inputtext1"
+                :rules="[requiredValidation, limitLengthValidation]"
+              >
+                <template v-slot:append>
+                  <v-btn
+                    depressed
+                    dense
+                    color="info"
+                    class="mr-n3"
+                    :disabled="!mytext"
+                    @click="getMemberName(state.inputtext1)"
+                    :loading="linking"
+                    >DB連携</v-btn
+                  >
+                </template></v-text-field
+              >
+            </v-col>
+            <v-col cols="5">
+              <h3 class="mb-2" align="left">Member Name</h3>
+              <v-text-field
+                outlined
+                dense
+                class="input-text"
+                v-model="state.inputtext2"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "@vue/composition-api";
+import { defineComponent, ref, reactive, computed } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
@@ -57,6 +59,8 @@ export default defineComponent({
       inputtext2: "",
     });
 
+    const linking = ref(false);
+
     // バリデーション関数
     const requiredValidation = (value: any) =>
       !!value || "必ず入力してください";
@@ -66,11 +70,14 @@ export default defineComponent({
 
     const getMemberName = async (inputText: string) => {
       try {
+        linking.value = true;
         const res = await SampleApiService.get_member_name(inputText);
         state.inputtext2 = res.data?.[0];
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
         state.inputtext2 = "登録されていないIDです。";
+      } finally {
+        linking.value = false;
       }
     };
 
@@ -85,6 +92,7 @@ export default defineComponent({
     return {
       state,
       mytext,
+      linking,
       requiredValidation,
       limitLengthValidation,
       getMemberName,
