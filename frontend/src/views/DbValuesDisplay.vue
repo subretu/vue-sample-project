@@ -12,7 +12,7 @@
                 dense
                 class="input-text"
                 v-model="state.inputtext1"
-                @input="load_image"
+                @input="changeReadyButton"
                 :rules="[requiredValidation, limitLengthValidation]"
               >
                 <template v-slot:append>
@@ -88,7 +88,7 @@ export default defineComponent({
       }
     };
 
-    const load_image = () => {
+    const changeReadyButton = () => {
       buttonText.value = "DB連携開始";
     };
 
@@ -108,7 +108,7 @@ export default defineComponent({
       requiredValidation,
       limitLengthValidation,
       getMemberName,
-      load_image,
+      changeReadyButton,
     };
   },
 });
