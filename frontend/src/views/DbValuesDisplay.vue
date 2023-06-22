@@ -12,18 +12,21 @@
                 dense
                 class="input-text"
                 v-model="state.inputtext1"
+                @input="load_image"
                 :rules="[requiredValidation, limitLengthValidation]"
               >
                 <template v-slot:append>
                   <v-btn
                     depressed
                     dense
+                    height="40"
+                    width="120"
                     color="info"
-                    class="mr-n3"
+                    class="mr-n3 mt-n2"
                     :disabled="!mytext"
                     @click="getMemberName(state.inputtext1)"
                     :loading="linking"
-                    >DB連携</v-btn
+                    >{{ buttonText }}</v-btn
                   >
                 </template></v-text-field
               >
@@ -61,6 +64,8 @@ export default defineComponent({
 
     const linking = ref(false);
 
+    const buttonText = ref("DB連携開始");
+
     // バリデーション関数
     const requiredValidation = (value: any) =>
       !!value || "必ず入力してください";
@@ -73,12 +78,18 @@ export default defineComponent({
         linking.value = true;
         const res = await SampleApiService.get_member_name(inputText);
         state.inputtext2 = res.data?.[0];
+        buttonText.value = "DB連携成功";
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
         state.inputtext2 = "登録されていないIDです。";
+        buttonText.value = "DB連携失敗";
       } finally {
         linking.value = false;
       }
+    };
+
+    const load_image = () => {
+      buttonText.value = "DB連携開始";
     };
 
     // バリデーションを通過すればボタンをクリック可能
@@ -93,9 +104,11 @@ export default defineComponent({
       state,
       mytext,
       linking,
+      buttonText,
       requiredValidation,
       limitLengthValidation,
       getMemberName,
+      load_image,
     };
   },
 });
