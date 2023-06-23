@@ -134,12 +134,15 @@ export default defineComponent({
   border-color: yellow;
 }
 .connectionDefault {
-  background-color: skyblue !important;
+  background-color: rgba(135, 206, 235, 0.3) !important;
+  border-left: 1px solid gray; /* 線のスタイルを設定 */
 }
 .connectionSuccess {
-  background-color: blue !important;
+  background-color: rgba(0, 0, 255, 0.3) !important;
+  border-left: 1px solid gray; /* 線のスタイルを設定 */
 }
 .connectionFail {
-  background-color: red !important;
+  background-color: rgba(255, 0, 0, 0.3) !important;
+  border-left: 1px solid gray; /* 線のスタイルを設定 */
 }
 </style>
