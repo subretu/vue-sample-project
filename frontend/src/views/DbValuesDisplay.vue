@@ -26,7 +26,7 @@
                         ? 'connectionSuccess'
                         : dbConnectionStatusFail
                         ? 'connectionFail'
-                        : 'ddefault',
+                        : 'connectionDefault',
                     ]"
                     class="mr-n3 mt-n2"
                     :disabled="!mytext"
@@ -131,12 +131,13 @@ export default defineComponent({
 <style scoped>
 .input-text {
   width: 700px;
+  border-color: yellow;
 }
-.default {
-  background-color: yellow !important;
+.connectionDefault {
+  background-color: skyblue !important;
 }
 .connectionSuccess {
-  background-color: skyblue !important;
+  background-color: blue !important;
 }
 .connectionFail {
   background-color: red !important;
