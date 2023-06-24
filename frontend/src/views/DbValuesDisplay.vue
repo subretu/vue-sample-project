@@ -29,7 +29,6 @@
                         : 'connectionDefault',
                     ]"
                     class="mr-n3 mt-n2"
-                    :disabled="!mytext"
                     @click="getMemberName(state.inputtext1)"
                     :loading="state.linking"
                     >{{ buttonText }}</v-btn
@@ -95,7 +94,7 @@ export default defineComponent({
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
 
-        state.inputtext2 = "登録されていないIDです。";
+        state.inputtext2 = "";
 
         state.dbConnectionStatusSuccess = false;
         state.dbConnectionStatusFail = true;
@@ -107,6 +106,8 @@ export default defineComponent({
 
     const changeReadyButton = () => {
       buttonText.value = "DB連携開始";
+      state.dbConnectionStatusSuccess = null;
+      state.dbConnectionStatusFail = null;
     };
 
     // バリデーションを通過すればボタンをクリック可能
@@ -134,21 +135,21 @@ export default defineComponent({
   width: 700px;
 }
 .connectionDefault {
-  background-color: rgba(135, 206, 235, 0.3) !important;
-  border-left: 1px solid gray; /* 線のスタイルを設定 */
-  color: black;
+  background-color: rgba(255, 255, 255, 0.199) !important;
+  border: 2px solid rgba(54, 34, 117, 0.6) !important;
+  color: rgba(54, 34, 117);
   font-weight: normal;
 }
 .connectionSuccess {
-  background-color: rgba(0, 0, 255, 0.3) !important;
-  border-left: 1px solid gray; /* 線のスタイルを設定 */
-  color: black;
+  background-color: rgba(255, 255, 255, 0.199) !important;
+  border-left: 1px solid rgb(128, 128, 128, 0.6) !important;
+  color: red;
   font-weight: normal;
 }
 .connectionFail {
-  background-color: rgba(255, 0, 0, 0.3) !important;
-  border-left: 1px solid gray; /* 線のスタイルを設定 */
-  color: black;
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  border-left: 1px solid rgb(128, 128, 128, 0.6) !important;
+  color: rgb(180, 170, 170);
   font-weight: normal;
 }
 </style>
