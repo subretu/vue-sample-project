@@ -131,18 +131,23 @@ export default defineComponent({
 <style scoped>
 .input-text {
   width: 700px;
-  border-color: yellow;
 }
 .connectionDefault {
   background-color: rgba(135, 206, 235, 0.3) !important;
   border-left: 1px solid gray; /* 線のスタイルを設定 */
+  color: black;
+  font-weight: normal;
 }
 .connectionSuccess {
   background-color: rgba(0, 0, 255, 0.3) !important;
   border-left: 1px solid gray; /* 線のスタイルを設定 */
+  color: black;
+  font-weight: normal;
 }
 .connectionFail {
   background-color: rgba(255, 0, 0, 0.3) !important;
   border-left: 1px solid gray; /* 線のスタイルを設定 */
+  color: black;
+  font-weight: normal;
 }
 </style>
