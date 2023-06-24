@@ -22,16 +22,16 @@
                     height="40"
                     width="120"
                     :class="[
-                      dbConnectionStatusSuccess
+                      state.dbConnectionStatusSuccess
                         ? 'connectionSuccess'
-                        : dbConnectionStatusFail
+                        : state.dbConnectionStatusFail
                         ? 'connectionFail'
                         : 'connectionDefault',
                     ]"
                     class="mr-n3 mt-n2"
                     :disabled="!mytext"
                     @click="getMemberName(state.inputtext1)"
-                    :loading="linking"
+                    :loading="state.linking"
                     >{{ buttonText }}</v-btn
                   >
                 </template></v-text-field
@@ -63,41 +63,45 @@ export default defineComponent({
     const state = reactive<{
       inputtext1: string;
       inputtext2: string;
+      linking: boolean;
+      dbConnectionStatusSuccess: boolean | null;
+      dbConnectionStatusFail: boolean | null;
     }>({
       inputtext1: "",
       inputtext2: "",
+      linking: false,
+      dbConnectionStatusSuccess: null,
+      dbConnectionStatusFail: null,
     });
 
-    const linking = ref(false);
-
     const buttonText = ref("DB連携開始");
-
-    const dbConnectionStatusSuccess = ref<boolean | null>(null);
-    const dbConnectionStatusFail = ref<boolean | null>(null);
 
     // バリデーション関数
     const requiredValidation = (value: any) =>
       !!value || "必ず入力してください";
-
     const limitLengthValidation = (value: any) =>
       !isNaN(value) || "半角数字を入力してください";
 
     const getMemberName = async (inputText: string) => {
       try {
-        linking.value = true;
+        state.linking = true;
+
         const res = await SampleApiService.get_member_name(inputText);
         state.inputtext2 = res.data?.[0];
-        dbConnectionStatusSuccess.value = true;
-        dbConnectionStatusFail.value = false;
+
+        state.dbConnectionStatusSuccess = true;
+        state.dbConnectionStatusFail = false;
         buttonText.value = "DB連携成功";
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
+
         state.inputtext2 = "登録されていないIDです。";
-        dbConnectionStatusSuccess.value = false;
-        dbConnectionStatusFail.value = true;
+
+        state.dbConnectionStatusSuccess = false;
+        state.dbConnectionStatusFail = true;
         buttonText.value = "DB連携失敗";
       } finally {
-        linking.value = false;
+        state.linking = false;
       }
     };
 
@@ -116,9 +120,6 @@ export default defineComponent({
     return {
       state,
       mytext,
-      linking,
-      dbConnectionStatusSuccess,
-      dbConnectionStatusFail,
       buttonText,
       requiredValidation,
       limitLengthValidation,
