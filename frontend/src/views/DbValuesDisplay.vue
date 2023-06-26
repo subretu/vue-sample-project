@@ -3,15 +3,15 @@
     <v-row>
       <v-col cols="12">
         <v-sheet color="white" elevation="1" class="pa-2">
-          <v-row>
+          <h3 class="mb-2" align="left">Member ID</h3>
+          <v-row v-for="(input, index) in state.inputs" :key="index">
             <v-col cols="5">
-              <h3 class="mb-2" align="left">Member ID</h3>
               <v-text-field
                 label="入力してください。"
                 outlined
                 dense
                 class="input-text"
-                v-model="state.inputtext1"
+                v-model="input.text1"
                 @input="changeReadyButton"
                 :rules="[requiredValidation, limitLengthValidation]"
               >
@@ -29,7 +29,7 @@
                         : 'connectionDefault',
                     ]"
                     class="mr-n3 mt-n2"
-                    @click="getMemberName(state.inputtext1)"
+                    @click="getMemberName(input.text1)"
                     :loading="state.linking"
                     >{{ buttonText }}</v-btn
                   >
@@ -37,15 +37,17 @@
               >
             </v-col>
             <v-col cols="5">
-              <h3 class="mb-2" align="left">Member Name</h3>
               <v-text-field
                 outlined
                 dense
                 class="input-text"
-                v-model="state.inputtext2"
+                v-model="input.text2"
               ></v-text-field>
             </v-col>
           </v-row>
+          <v-btn fab depressed @click="addInputForm()">
+            <v-icon> mdi-plus-circle </v-icon>
+          </v-btn>
         </v-sheet>
       </v-col>
     </v-row>
@@ -62,12 +64,14 @@ export default defineComponent({
     const state = reactive<{
       inputtext1: string;
       inputtext2: string;
+      inputs: [{ text1: string; text2: string }];
       linking: boolean;
       dbConnectionStatusSuccess: boolean | null;
       dbConnectionStatusFail: boolean | null;
     }>({
       inputtext1: "",
       inputtext2: "",
+      inputs: [{ text1: "", text2: "" }],
       linking: false,
       dbConnectionStatusSuccess: null,
       dbConnectionStatusFail: null,
@@ -86,7 +90,7 @@ export default defineComponent({
         state.linking = true;
 
         const res = await SampleApiService.get_member_name(inputText);
-        state.inputtext2 = res.data?.[0];
+        state.inputs[0].text2 = res.data?.[0];
 
         state.dbConnectionStatusSuccess = true;
         state.dbConnectionStatusFail = false;
@@ -94,7 +98,7 @@ export default defineComponent({
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
 
-        state.inputtext2 = "";
+        state.inputs[0].text2 = "";
 
         state.dbConnectionStatusSuccess = false;
         state.dbConnectionStatusFail = true;
@@ -118,6 +122,10 @@ export default defineComponent({
       );
     });
 
+    const addInputForm = () => {
+      state.inputs.push({ text1: "", text2: "" });
+    };
+
     return {
       state,
       mytext,
@@ -126,6 +134,7 @@ export default defineComponent({
       limitLengthValidation,
       getMemberName,
       changeReadyButton,
+      addInputForm,
     };
   },
 });
