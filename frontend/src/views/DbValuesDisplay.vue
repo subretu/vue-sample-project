@@ -12,7 +12,7 @@
                 dense
                 class="input-text"
                 v-model="input.text1"
-                @input="changeReadyButton"
+                @input="changeReadyButton(index)"
                 :rules="[requiredValidation, limitLengthValidation]"
               >
                 <template v-slot:append>
@@ -29,9 +29,9 @@
                         : 'connectionDefault',
                     ]"
                     class="mr-n3 mt-n2"
-                    @click="getMemberName(input.text1)"
-                    :loading="state.linking"
-                    >{{ buttonText }}</v-btn
+                    @click="getMemberName(input.text1, index)"
+                    :loading="state.linkings[index]"
+                    >{{ state.buttonTexts[index] }}</v-btn
                   >
                 </template></v-text-field
               >
@@ -64,20 +64,21 @@ export default defineComponent({
     const state = reactive<{
       inputtext1: string;
       inputtext2: string;
-      inputs: [{ text1: string; text2: string }];
-      linking: boolean;
+      inputs: { text1: string; text2: string }[];
+      linkings: boolean[];
+      buttonTexts: string[];
       dbConnectionStatusSuccess: boolean | null;
       dbConnectionStatusFail: boolean | null;
     }>({
       inputtext1: "",
       inputtext2: "",
       inputs: [{ text1: "", text2: "" }],
-      linking: false,
+      linkings: [false],
+      buttonTexts: ["DB連携開始"],
+      // 下記2ステータスもindexごとの用意が必要そう
       dbConnectionStatusSuccess: null,
       dbConnectionStatusFail: null,
     });
-
-    const buttonText = ref("DB連携開始");
 
     // バリデーション関数
     const requiredValidation = (value: any) =>
@@ -85,16 +86,17 @@ export default defineComponent({
     const limitLengthValidation = (value: any) =>
       !isNaN(value) || "半角数字を入力してください";
 
-    const getMemberName = async (inputText: string) => {
+    const getMemberName = async (inputText: string, index: number) => {
       try {
-        state.linking = true;
+        state.linkings[index] = true;
 
         const res = await SampleApiService.get_member_name(inputText);
         state.inputs[0].text2 = res.data?.[0];
 
         state.dbConnectionStatusSuccess = true;
         state.dbConnectionStatusFail = false;
-        buttonText.value = "DB連携成功";
+
+        state.buttonTexts[index] = "DB連携成功";
       } catch (err: any) {
         console.log(JSON.parse(err.request.response).detail);
 
@@ -102,14 +104,15 @@ export default defineComponent({
 
         state.dbConnectionStatusSuccess = false;
         state.dbConnectionStatusFail = true;
-        buttonText.value = "DB連携失敗";
+
+        state.buttonTexts[index] = "DB連携失敗";
       } finally {
-        state.linking = false;
+        state.linkings[index] = false;
       }
     };
 
-    const changeReadyButton = () => {
-      buttonText.value = "DB連携開始";
+    const changeReadyButton = (index: number) => {
+      state.buttonTexts[index] = "DB連携開始";
       state.dbConnectionStatusSuccess = null;
       state.dbConnectionStatusFail = null;
     };
@@ -124,12 +127,13 @@ export default defineComponent({
 
     const addInputForm = () => {
       state.inputs.push({ text1: "", text2: "" });
+      state.linkings.push(false);
+      state.buttonTexts.push("DB連携開始");
     };
 
     return {
       state,
       mytext,
-      buttonText,
       requiredValidation,
       limitLengthValidation,
       getMemberName,
