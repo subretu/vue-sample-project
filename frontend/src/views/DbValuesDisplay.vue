@@ -30,7 +30,7 @@
                     ]"
                     class="mr-n3 mt-n2"
                     @click="getMemberName(input.text1, index)"
-                    :loading="state.linkings[index]"
+                    :loading="state.linkings[index].linking"
                     >{{ state.buttonTexts[index] }}</v-btn
                   >
                 </template></v-text-field
@@ -65,7 +65,7 @@ export default defineComponent({
       inputtext1: string;
       inputtext2: string;
       inputs: { text1: string; text2: string }[];
-      linkings: boolean[];
+      linkings: [{ linking: boolean }];
       buttonTexts: string[];
       dbConnectionStatusSuccess: boolean | null;
       dbConnectionStatusFail: boolean | null;
@@ -73,7 +73,7 @@ export default defineComponent({
       inputtext1: "",
       inputtext2: "",
       inputs: [{ text1: "", text2: "" }],
-      linkings: [false],
+      linkings: [{ linking: false }],
       buttonTexts: ["DB連携開始"],
       // 下記2ステータスもindexごとの用意が必要そう
       dbConnectionStatusSuccess: null,
@@ -86,29 +86,30 @@ export default defineComponent({
     const limitLengthValidation = (value: any) =>
       !isNaN(value) || "半角数字を入力してください";
 
-    const getMemberName = async (inputText: string, index: number) => {
-      try {
-        state.linkings[index] = true;
+    const callGetMemberName = (inputText: string) => {
+      return SampleApiService.get_member_name(inputText);
+    };
 
-        const res = await SampleApiService.get_member_name(inputText);
-        state.inputs[0].text2 = res.data?.[0];
-
-        state.dbConnectionStatusSuccess = true;
-        state.dbConnectionStatusFail = false;
-
-        state.buttonTexts[index] = "DB連携成功";
-      } catch (err: any) {
-        console.log(JSON.parse(err.request.response).detail);
-
-        state.inputs[0].text2 = "";
-
-        state.dbConnectionStatusSuccess = false;
-        state.dbConnectionStatusFail = true;
-
-        state.buttonTexts[index] = "DB連携失敗";
-      } finally {
-        state.linkings[index] = false;
-      }
+    const getMemberName = (inputText: string, index: number) => {
+      state.linkings[index].linking = true;
+      const response = callGetMemberName(inputText);
+      response
+        .then((success) => {
+          state.inputs[0].text2 = success.data?.[0];
+          state.dbConnectionStatusSuccess = true;
+          state.dbConnectionStatusFail = false;
+          state.buttonTexts[index] = "DB連携成功";
+        })
+        .catch((e) => {
+          console.log(JSON.parse(e.request.response).detail);
+          state.inputs[0].text2 = "";
+          state.dbConnectionStatusSuccess = false;
+          state.dbConnectionStatusFail = true;
+          state.buttonTexts[index] = "DB連携失敗";
+        })
+        .finally(() => {
+          state.linkings[index].linking = false;
+        });
     };
 
     const changeReadyButton = (index: number) => {
@@ -127,7 +128,7 @@ export default defineComponent({
 
     const addInputForm = () => {
       state.inputs.push({ text1: "", text2: "" });
-      state.linkings.push(false);
+      state.linkings.push({ linking: false });
       state.buttonTexts.push("DB連携開始");
     };
 
