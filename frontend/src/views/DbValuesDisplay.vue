@@ -22,9 +22,9 @@
                     height="40"
                     width="120"
                     :class="[
-                      state.dbConnectionStatusSuccess
+                      state.dbConnectionStatus[index].success
                         ? 'connectionSuccess'
-                        : state.dbConnectionStatusFail
+                        : state.dbConnectionStatus[index].fail
                         ? 'connectionFail'
                         : 'connectionDefault',
                     ]"
@@ -65,19 +65,16 @@ export default defineComponent({
       inputtext1: string;
       inputtext2: string;
       inputs: { text1: string; text2: string }[];
-      linkings: [{ linking: boolean }];
+      linkings: { linking: boolean }[];
       buttonTexts: string[];
-      dbConnectionStatusSuccess: boolean | null;
-      dbConnectionStatusFail: boolean | null;
+      dbConnectionStatus: { success: boolean | null; fail: boolean | null }[];
     }>({
       inputtext1: "",
       inputtext2: "",
       inputs: [{ text1: "", text2: "" }],
       linkings: [{ linking: false }],
       buttonTexts: ["DB連携開始"],
-      // 下記2ステータスもindexごとの用意が必要そう
-      dbConnectionStatusSuccess: null,
-      dbConnectionStatusFail: null,
+      dbConnectionStatus: [{ success: null, fail: null }],
     });
 
     // バリデーション関数
@@ -95,16 +92,16 @@ export default defineComponent({
       const response = callGetMemberName(inputText);
       response
         .then((success) => {
-          state.inputs[0].text2 = success.data?.[0];
-          state.dbConnectionStatusSuccess = true;
-          state.dbConnectionStatusFail = false;
+          state.inputs[index].text2 = success.data?.[0];
+          state.dbConnectionStatus[index].success = true;
+          state.dbConnectionStatus[index].fail = false;
           state.buttonTexts[index] = "DB連携成功";
         })
         .catch((e) => {
           console.log(JSON.parse(e.request.response).detail);
-          state.inputs[0].text2 = "";
-          state.dbConnectionStatusSuccess = false;
-          state.dbConnectionStatusFail = true;
+          state.inputs[index].text2 = "";
+          state.dbConnectionStatus[index].success = false;
+          state.dbConnectionStatus[index].fail = true;
           state.buttonTexts[index] = "DB連携失敗";
         })
         .finally(() => {
@@ -114,8 +111,8 @@ export default defineComponent({
 
     const changeReadyButton = (index: number) => {
       state.buttonTexts[index] = "DB連携開始";
-      state.dbConnectionStatusSuccess = null;
-      state.dbConnectionStatusFail = null;
+      state.dbConnectionStatus[index].success = null;
+      state.dbConnectionStatus[index].fail = null;
     };
 
     // バリデーションを通過すればボタンをクリック可能
@@ -129,6 +126,7 @@ export default defineComponent({
     const addInputForm = () => {
       state.inputs.push({ text1: "", text2: "" });
       state.linkings.push({ linking: false });
+      state.dbConnectionStatus.push({ success: null, fail: null });
       state.buttonTexts.push("DB連携開始");
     };
 
