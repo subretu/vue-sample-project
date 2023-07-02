@@ -35,6 +35,7 @@
                     class="mr-n3 mt-n2"
                     @click="getMemberName(input.text1, index)"
                     :loading="state.linkings[index].linking"
+                    :disabled="!mytext(index)"
                     >{{ state.buttonTexts[index] }}</v-btn
                   >
                 </template></v-text-field
@@ -49,7 +50,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-btn fab depressed @click="addInputForm()">
+          <v-btn fab depressed class="mt-6" @click="addInputForm()">
             <v-icon> mdi-plus-circle </v-icon>
           </v-btn>
         </v-sheet>
@@ -59,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from "@vue/composition-api";
+import { defineComponent, reactive } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
@@ -122,10 +123,13 @@ export default defineComponent({
       state.buttonTexts.push("DB連携開始");
     };
 
-    // バリデーションを通過すればボタンをクリック可能
-    const mytext = computed(() => {
-      return limitLengthValidation(state.inputs) === true;
-    });
+    // バリデーションを通過かつ入力があればボタンをクリック可能
+    const mytext = (index: number) => {
+      return (
+        limitLengthValidation(state.inputs[index].text1) === true &&
+        state.inputs[index].text1 !== ""
+      );
+    };
 
     return {
       state,
