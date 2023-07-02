@@ -17,7 +17,7 @@
                 class="input-text"
                 v-model="input.text1"
                 @input="changeReadyButton(index)"
-                :rules="limitLengthValidation"
+                :rules="[limitLengthValidation]"
               >
                 <template v-slot:append>
                   <v-btn
