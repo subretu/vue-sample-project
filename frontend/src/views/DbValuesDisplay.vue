@@ -4,7 +4,11 @@
       <v-col cols="12">
         <v-sheet color="white" elevation="1" class="pa-2">
           <h3 class="mb-2" align="left">Member ID</h3>
-          <v-row v-for="(input, index) in state.inputs" :key="index">
+          <v-row
+            v-for="(input, index) in state.inputs"
+            :key="index"
+            class="mb-n8"
+          >
             <v-col cols="5">
               <v-text-field
                 label="入力してください。"
@@ -13,7 +17,7 @@
                 class="input-text"
                 v-model="input.text1"
                 @input="changeReadyButton(index)"
-                :rules="[requiredValidation, limitLengthValidation]"
+                :rules="limitLengthValidation"
               >
                 <template v-slot:append>
                   <v-btn
@@ -55,22 +59,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from "@vue/composition-api";
+import { defineComponent, reactive, computed } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
   name: "CreateLink",
   setup() {
     const state = reactive<{
-      inputtext1: string;
-      inputtext2: string;
       inputs: { text1: string; text2: string }[];
       linkings: { linking: boolean }[];
       buttonTexts: string[];
       dbConnectionStatus: { success: boolean | null; fail: boolean | null }[];
     }>({
-      inputtext1: "",
-      inputtext2: "",
       inputs: [{ text1: "", text2: "" }],
       linkings: [{ linking: false }],
       buttonTexts: ["DB連携開始"],
@@ -78,8 +78,6 @@ export default defineComponent({
     });
 
     // バリデーション関数
-    const requiredValidation = (value: any) =>
-      !!value || "必ず入力してください";
     const limitLengthValidation = (value: any) =>
       !isNaN(value) || "半角数字を入力してください";
 
@@ -109,20 +107,14 @@ export default defineComponent({
         });
     };
 
+    // ボタンの表示を変更
     const changeReadyButton = (index: number) => {
       state.buttonTexts[index] = "DB連携開始";
       state.dbConnectionStatus[index].success = null;
       state.dbConnectionStatus[index].fail = null;
     };
 
-    // バリデーションを通過すればボタンをクリック可能
-    const mytext = computed(() => {
-      return (
-        requiredValidation(state.inputtext1) === true &&
-        limitLengthValidation(state.inputtext1) === true
-      );
-    });
-
+    // 入力フォームを追加する
     const addInputForm = () => {
       state.inputs.push({ text1: "", text2: "" });
       state.linkings.push({ linking: false });
@@ -130,10 +122,14 @@ export default defineComponent({
       state.buttonTexts.push("DB連携開始");
     };
 
+    // バリデーションを通過すればボタンをクリック可能
+    const mytext = computed(() => {
+      return limitLengthValidation(state.inputs) === true;
+    });
+
     return {
       state,
       mytext,
-      requiredValidation,
       limitLengthValidation,
       getMemberName,
       changeReadyButton,
