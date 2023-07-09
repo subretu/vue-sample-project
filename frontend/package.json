@@ -11,7 +11,7 @@
     "axios": "^1.4.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.31.0",
-    "pdfjs-dist": "^3.5.141",
+    "pdfjs-dist": "^3.8.162",
     "sortablejs": "^1.15.0",
     "vue": "^2.6.14",
     "vue-axios": "^3.5.2",
