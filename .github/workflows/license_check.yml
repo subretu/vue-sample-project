@@ -41,6 +41,10 @@ jobs:
         working-directory: ./frontend
         run: |
           if [ -s ng-licenses.txt ]; then
+            echo "The following licenses are not valid:"
             cat ng-licenses.txt
+            echo "Exiting with error..."
             exit 1
+          else
+            echo "No invalid licenses found."
           fi
