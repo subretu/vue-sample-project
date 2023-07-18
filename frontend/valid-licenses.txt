@@ -1,3 +1,2 @@
 MIT
 ISC
-BSD-3-Clause
