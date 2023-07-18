@@ -27,14 +27,13 @@ jobs:
         working-directory: ./frontend
         run: |
           output=$(cat licenses.json)
-          keys=$(echo $output | jq -r 'keys[]')
+          keys=$(echo "$output" | jq -r 'keys[]')
           for key in $keys; do
-            license=$(echo $output | jq -r ".$key.licenses")
+            license=$(echo "$output" | jq -r ".$key.licenses")
             if [ "$license" != "MIT" ]; then
               echo "$key: $license" >> ng-licenses.txt
             fi
           done
-
       - name: Display NG Licenses
         working-directory: ./frontend
         run: cat ng-licenses.txt
