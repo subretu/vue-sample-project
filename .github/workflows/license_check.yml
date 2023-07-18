@@ -30,10 +30,13 @@ jobs:
           keys=$(echo "$output" | jq -r 'keys[]')
           for key in $keys; do
             license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
-            if [ "$license" != "MIT" ]; then
+            valid_license=$(cat valid-licenses.txt)
+            if grep -q "$license" valid-licenses.txt; then
               echo "$key: $license" >> ng-licenses.txt
             fi
           done
+
       - name: Display NG Licenses
+        if: ${{ steps.parse-licenses.outputs.ng-licenses != '' }}
         working-directory: ./frontend
         run: cat ng-licenses.txt
