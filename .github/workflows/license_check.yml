@@ -14,14 +14,17 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Dependencies
+        working-directory: ./frontend
         run: npm install
 
       - name: Run License Checker
         id: license-checker
+        working-directory: ./frontend
         run: npx license-checker --production --unknown --json > licenses.json
 
       - name: Parse Licenses
         id: parse-licenses
+        working-directory: ./frontend
         run: |
           output=$(cat licenses.json)
           keys=$(echo $output | jq -r 'keys[]')
@@ -33,4 +36,5 @@ jobs:
           done
 
       - name: Display NG Licenses
+        working-directory: ./frontend
         run: cat ng-licenses.txt
