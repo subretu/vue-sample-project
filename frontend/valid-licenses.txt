@@ -1,0 +1,4 @@
+MIT
+ISC
+BSD-2-Clause
+Apache-2.0
