@@ -1,0 +1,52 @@
+name: License Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  License Check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Run License Checker
+        id: license-checker
+        working-directory: ./frontend
+        run: npx license-checker --production --unknown --json > licenses.json
+
+      - name: Parse Licenses
+        id: parse-licenses
+        working-directory: ./frontend
+        run: |
+          output=$(cat licenses.json)
+          keys=$(echo "$output" | jq -r 'keys[]')
+          allow_licenses=$(cat allow_licenses.txt)
+
+          for key in $keys; do
+            license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
+            if [[ "$allow_licenses" != *"$license"* ]]; then
+              echo "$key: $license" >> ng-licenses.txt
+            fi
+          done
+
+      - name: Display NG Licenses
+        working-directory: ./frontend
+        run: |
+          if [ -s ng-licenses.txt ]; then
+            echo "The following licenses are not valid:"
+            echo "==================================="
+            cat ng-licenses.txt
+            echo "==================================="ac
+            echo "Exiting with error..."
+            exit 1
+          else
+            echo "No invalid licenses found."
+          fi
