@@ -42,7 +42,9 @@ jobs:
         run: |
           if [ -s ng-licenses.txt ]; then
             echo "The following licenses are not valid:"
+            echo "==================================="
             cat ng-licenses.txt
+            echo "==================================="
             echo "Exiting with error..."
             exit 1
           else
