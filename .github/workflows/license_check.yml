@@ -28,15 +28,14 @@ jobs:
         run: |
           output=$(cat licenses.json)
           keys=$(echo "$output" | jq -r 'keys[]')
+          valid_license=$(cat valid-licenses.txt)
 
-          while IFS= read -r valid_license; do
-            for key in $keys; do
-              license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
-              if [[ "$valid_license" == "$license" ]]; then
-                echo "$key: $license" >> ng-licenses.txt
-              fi
-            done
-          done < valid-licenses.txt
+          for key in $keys; do
+            license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
+            if [[ "$valid_license" == *"$license"* ]]; then
+              echo "$key: $license" >> ng-licenses.txt
+            fi
+          done
 
       - name: Display NG Licenses
         working-directory: ./frontend
