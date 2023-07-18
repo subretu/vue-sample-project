@@ -29,7 +29,7 @@ jobs:
           output=$(cat licenses.json)
           keys=$(echo "$output" | jq -r 'keys[]')
           for key in $keys; do
-            license=$(echo "$output" | jq -r ".$key.licenses")
+            license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
             if [ "$license" != "MIT" ]; then
               echo "$key: $license" >> ng-licenses.txt
             fi
