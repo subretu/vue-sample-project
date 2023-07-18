@@ -38,5 +38,8 @@ jobs:
           done
 
       - name: Display NG Licenses
+        if: ${{ steps.parse-licenses.outputs.ng-licenses != '' }}
         working-directory: ./frontend
-        run: cat ng-licenses.txt
+        run: |
+          cat ng-licenses.txt
+          exit 1
