@@ -1,0 +1,36 @@
+name: License Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run License Checker
+        id: license-checker
+        run: npx license-checker --production --unknown --json > licenses.json
+
+      - name: Parse Licenses
+        id: parse-licenses
+        run: |
+          output=$(cat licenses.json)
+          keys=$(echo $output | jq -r 'keys[]')
+          for key in $keys; do
+            license=$(echo $output | jq -r ".$key.licenses")
+            if [ "$license" != "MIT" ]; then
+              echo "$key: $license" >> ng-licenses.txt
+            fi
+          done
+
+      - name: Display NG Licenses
+        run: cat ng-licenses.txt
