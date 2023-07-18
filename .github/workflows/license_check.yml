@@ -32,7 +32,7 @@ jobs:
 
           for key in $keys; do
             license=$(echo "$output" | jq -r ".[\"$key\"].licenses")
-            if [[ "$valid_license" == *"$license"* ]]; then
+            if [[ "$valid_license" !== *"$license"* ]]; then
               echo "$key: $license" >> ng-licenses.txt
             fi
           done
