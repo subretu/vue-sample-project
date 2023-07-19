@@ -39,12 +39,36 @@ jobs:
             fi
           done
 
-          echo "{" > ng-licenses.json
+          echo "{" > ng-licenses1.json
           for key in "${!ng_licenses[@]}"; do
             license=${ng_licenses[$key]}
             echo "\"$key\": \"$license\"," >> ng-licenses.json
           done
-          echo "}" >> ng-licenses.json
+          echo "}" >> ng-licenses1.json
+
+      - name: Check Ignore Licenses
+        id: parse-licenses
+        working-directory: ./frontend
+        run: |
+          output=$(cat ng-licenses1.json)
+          keys=$(echo "$output" | jq -r 'keys[]')
+          ignore_librarys=$(cat ignore_librarys.txt)
+
+          declare -A ng_licenses
+
+          for key in $keys; do
+            license=$(echo "$output" | jq -r ".$key")
+            if [[ "$ignore_librarys" != *"$license"* ]]; then
+              ng_licenses["$key"]=$license
+            fi
+          done
+
+          echo "{" > ng-licenses2.json
+          for key in "${!ng_licenses[@]}"; do
+            license=${ng_licenses[$key]}
+            echo "\"$key\": \"$license\"," >> ng-licenses2.json
+          done
+          echo "}" >> ng-licenses2.json
 
       - name: Display NG Licenses
         working-directory: ./frontend
@@ -52,7 +76,7 @@ jobs:
           if [ -sng-licenses.json ]; then
             echo "The following licenses are not valid:"
             echo "==================================="
-            cat ng-licenses.json
+            cat ng-licenses2.json
             echo "==================================="ac
             echo "Exiting with error..."
             exit 1
