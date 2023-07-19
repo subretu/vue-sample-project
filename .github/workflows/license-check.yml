@@ -52,7 +52,7 @@ jobs:
           if [ -sng-licenses.json ]; then
             echo "The following licenses are not valid:"
             echo "==================================="
-            cat ng-licenses.txt
+            cat ng-licenses.json
             echo "==================================="ac
             echo "Exiting with error..."
             exit 1
