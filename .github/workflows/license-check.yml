@@ -42,7 +42,7 @@ jobs:
           echo "{" > ng-licenses1.json
           for key in "${!ng_licenses[@]}"; do
             license=${ng_licenses[$key]}
-            echo "\"$key\": \"$license\"," >> ng-licenses.json
+            echo "\"$key\": \"$license\"," >> ng-licenses1.json
           done
           echo "}" >> ng-licenses1.json
           cat ng-licenses1.json
@@ -74,7 +74,7 @@ jobs:
       - name: Display NG Licenses
         working-directory: ./frontend
         run: |
-          if [ -sng-licenses.json ]; then
+          if [ -sng-licenses2.json ]; then
             echo "The following licenses are not valid:"
             echo "==================================="
             cat ng-licenses2.json
