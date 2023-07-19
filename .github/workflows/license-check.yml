@@ -58,8 +58,8 @@ jobs:
           declare -A ng_licenses
 
           for key in $keys; do
-            license=$(echo "$output" | jq -r ".$key")
-            if [[ "$ignore_librarys" != ".[\"$key\"]" ]]; then
+            slicense=$(echo "$output" | jq -r ".[\"$key\"]")
+            if [[ "$ignore_librarys" != *"$key"* ]]; then
               ng_licenses["$key"]=$license
             fi
           done
