@@ -45,7 +45,6 @@ jobs:
             echo "\"$key\": \"$license\"," >> ng-licenses1.json
           done
           echo "}" >> ng-licenses1.json
-          cat ng-licenses1.json
 
       - name: Check Ignore Licenses
         id: parse-licenses2
@@ -59,7 +58,7 @@ jobs:
 
           for key in $keys; do
             license=$(echo "$output" | jq -r ".$key")
-            if [[ "$ignore_librarys" != *"$key"* ]]; then
+            if [[ "$ignore_librarys" != *".$key"* ]]; then
               ng_licenses["$key"]=$license
             fi
           done
