@@ -39,16 +39,12 @@ jobs:
             fi
           done
 
-          echo "{" > ng-licenses1.json
-          for key in "${!ng_licenses[@]}"; do
-            license=${ng_licenses[$key]}
-            echo "\"$key\": \"$license\"," >> ng-licenses1.json
-          done
-          echo "}" >> ng-licenses1.json
-          # 最後のカンマを削除して } を追加
-          sed -i '$ s/,$//' ng-licenses1.json
-          echo "}" >> ng-licenses1.json
-          cat ng-licenses1.json
+          {
+            for key in "${!ng_licenses[@]}"; do
+              license=${ng_licenses[$key]}
+              echo "\"$key\": \"$license\","
+            done
+          } | sed '$ s/,$//' > ng-licenses1.json
 
       - name: Check Ignore Licenses
         id: parse-licenses2
@@ -72,9 +68,6 @@ jobs:
             license=${ng_licenses[$key]}
             echo "\"$key\": \"$license\"," >> ng-licenses2.json
           done
-          echo "}" >> ng-licenses2.json
-          # 最後のカンマを削除して } を追加
-          sed -i '$ s/,$//' ng-licenses2.json
           echo "}" >> ng-licenses2.json
 
       - name: Display NG Licenses
