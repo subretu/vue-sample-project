@@ -44,7 +44,7 @@ jobs:
               license=${ng_licenses[$key]}
               echo "\"$key\": \"$license\","
             done
-          } | sed '$ s/,$//' > ng-licenses1.json
+          } | sed '$ s/,$//' | sed '1i{' | sed '$a}' > ng-licenses1.json
           cat ng-licenses1.json
 
       - name: Check Ignore Licenses
