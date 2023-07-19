@@ -48,6 +48,7 @@ jobs:
           # 最後のカンマを削除して } を追加
           sed -i '$ s/,$//' ng-licenses1.json
           echo "}" >> ng-licenses1.json
+          cat ng-licenses1.json
 
       - name: Check Ignore Licenses
         id: parse-licenses2
