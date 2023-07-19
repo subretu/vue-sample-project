@@ -42,7 +42,7 @@ jobs:
           echo "{" > ng-licenses.json
           for key in "${!ng_licenses[@]}"; do
             license=${ng_licenses[$key]}
-            echo "\"$key\": \"$license\"}," >> ng-licenses.json
+            echo "\"$key\": \"$license\"," >> ng-licenses.json
           done
           echo "}" >> ng-licenses.json
 
