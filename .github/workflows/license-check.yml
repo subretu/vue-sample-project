@@ -59,17 +59,18 @@ jobs:
 
           for key in $keys; do
             license=$(echo "$output" | jq -r ".$key")
-            if [[ "$ignore_librarys" != *".[\"$key\"]"* ]]; then
+            if [[ "$ignore_librarys" != ".[\"$key\"]" ]]; then
               ng_licenses["$key"]=$license
             fi
           done
 
-          echo "{" > ng-licenses2.json
-          for key in "${!ng_licenses[@]}"; do
-            license=${ng_licenses[$key]}
-            echo "\"$key\": \"$license\"," >> ng-licenses2.json
-          done
-          echo "}" >> ng-licenses2.json
+          {
+            for key in "${!ng_licenses[@]}"; do
+              license=${ng_licenses[$key]}
+              echo "\"$key\": \"$license\","
+            done
+          } | sed '$ s/,$//' | sed '1i{' | sed '$a}' > ng-licenses2.json
+          cat ng-licenses2.json
 
       - name: Display NG Licenses
         working-directory: ./frontend
