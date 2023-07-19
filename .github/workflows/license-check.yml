@@ -23,7 +23,7 @@ jobs:
         run: npx license-checker --production --unknown --json > licenses.json
 
       - name: Check Allow Licenses
-        id: parse-licenses
+        id: parse-licenses1
         working-directory: ./frontend
         run: |
           output=$(cat licenses.json)
@@ -47,7 +47,7 @@ jobs:
           echo "}" >> ng-licenses1.json
 
       - name: Check Ignore Licenses
-        id: parse-licenses
+        id: parse-licenses2
         working-directory: ./frontend
         run: |
           output=$(cat ng-licenses1.json)
