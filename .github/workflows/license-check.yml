@@ -45,6 +45,7 @@ jobs:
               echo "\"$key\": \"$license\","
             done
           } | sed '$ s/,$//' > ng-licenses1.json
+          cat ng-licenses1.json
 
       - name: Check Ignore Licenses
         id: parse-licenses2
