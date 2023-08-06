@@ -38,7 +38,7 @@
     "eslint-plugin-vue": "^8.7.1",
     "license-checker": "^25.0.1",
     "prettier": "^2.8.8",
-    "sass": "~1.32.0",
+    "sass": "~1.64.2",
     "sass-loader": "^10.0.0",
     "typescript": "~5.0.4",
     "vue-cli-plugin-vuetify": "~2.5.8",
