@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@vue/composition-api": "^1.7.1"
+    "@vue/composition-api": "^1.7.2"
   },
   "volta": {
     "node": "16.13.1"
