@@ -35,6 +35,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/AxiosTest.vue"),
   },
   {
+    path: "/axiostest2",
+    name: "axiostest2",
+    component: () => import("../views/AxiosTest2.vue"),
+  },
+  {
     path: "/chartsample",
     name: "chartsample",
     component: () => import("../views/ChartSample.vue"),
