@@ -3,6 +3,12 @@
     <v-dialog v-model="dialog" width="500">
       <v-card>
         <v-card-title class="headline">データ詳細</v-card-title>
+        <v-select
+          :items="viewSelectBoxData"
+          outlined
+          dense
+          class="ml-6"
+        ></v-select>
         <v-card-text>
           <v-row>
             <v-col cols="3">ID</v-col
@@ -115,8 +121,20 @@ export default defineComponent({
       apiResponse.data = data;
     };
 
+    const viewSelectBoxData = ref<string[]>([]);
+
+    const selectBoxData = async () => {
+      const data = await getDay();
+      for (const elem of data) {
+        viewSelectBoxData.value.push(
+          elem.id + "_" + elem.label + "_" + elem.data
+        );
+      }
+    };
+
     onMounted(async () => {
       await displayData();
+      await selectBoxData();
     });
 
     return {
@@ -126,6 +144,7 @@ export default defineComponent({
       openDialog,
       closeDialog,
       viewData,
+      viewSelectBoxData,
     };
   },
 });
@@ -143,5 +162,8 @@ export default defineComponent({
 .td-cell {
   font-family: Roboto, sans-serif;
   font-size: 14px;
+}
+.v-select {
+  width: 60%;
 }
 </style>
