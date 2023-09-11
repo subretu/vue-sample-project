@@ -2,7 +2,17 @@
   <v-container>
     <v-dialog v-model="dialog" width="500">
       <v-card>
-        <v-card-title class="headline">データ詳細</v-card-title>
+        <v-card-title class="headline"
+          >データ詳細
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="ml-1" color="black" dark v-bind="attrs" v-on="on">
+                mdi-help-circle-outline
+              </v-icon>
+            </template>
+            <span>これは選択されたデータの詳細を表示している画面です</span>
+          </v-tooltip></v-card-title
+        >
         <v-select
           :items="viewSelectBoxData"
           outlined
