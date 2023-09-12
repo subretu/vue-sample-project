@@ -13,12 +13,6 @@
             <span>これは選択されたデータの詳細を表示している画面です</span>
           </v-tooltip></v-card-title
         >
-        <v-select
-          :items="viewSelectBoxData"
-          outlined
-          dense
-          class="ml-6"
-        ></v-select>
         <v-card-text>
           <v-row>
             <v-col cols="3">ID</v-col
@@ -61,7 +55,7 @@
             dense
             class="ml-6 select-box"
           ></v-select>
-          <v-btn class="ml-3" @click="getTargetData">apply</v-btn>
+          <v-btn class="ml-3" @click="applySelectData">apply</v-btn>
         </v-row>
         <v-card-text>
           <v-row>
@@ -181,6 +175,7 @@ export default defineComponent({
 
     const selectBoxData = async () => {
       const data = await getDay();
+      viewSelectBoxData.value.push("");
       for (const elem of data) {
         viewSelectBoxData.value.push(
           elem.id + "_" + elem.label + "_" + elem.data
@@ -206,19 +201,37 @@ export default defineComponent({
       dialog2.value = false;
     };
 
-    const getTargetData = () => {
-      const eventList = selectedValue.value.split("_");
-      apiResponse.data.forEach(function (element) {
-        if (element.id === eventList[0]) {
-          dialogData2.id = element.id;
-          dialogData2.label = element.label;
-          dialogData2.data = element.data;
-          return;
-        }
-      });
+    const applySelectData = () => {
+      if (selectedValue.value === "") {
+        dialogData2.id = "";
+        dialogData2.label = "";
+        dialogData2.data = 0;
+        return;
+      } else {
+        const eventList = selectedValue.value.split("_");
+        apiResponse.data.forEach(function (element) {
+          if (element.id === eventList[0]) {
+            dialogData2.id = element.id;
+            dialogData2.label = element.label;
+            dialogData2.data = element.data;
+            return;
+          }
+        });
+      }
     };
 
     // モーダルの開閉を監視
+    watch(
+      () => dialog.value,
+      async () => {
+        if (!dialog.value) {
+          dialogData.id = "";
+          dialogData.label = "";
+          dialogData.data = 0;
+        }
+      }
+    );
+
     watch(
       () => dialog2.value,
       async () => {
@@ -245,7 +258,7 @@ export default defineComponent({
       dialogData2,
       openDialog,
       openDialog2,
-      getTargetData,
+      applySelectData,
       closeDialog,
       closeDialog2,
       selectedValue,
