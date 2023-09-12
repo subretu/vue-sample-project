@@ -53,13 +53,16 @@
             <span>これは選択されたデータの詳細を表示している画面です</span>
           </v-tooltip></v-card-title
         >
-        <v-select
-          :items="viewSelectBoxData"
-          outlined
-          dense
-          class="ml-6"
-          @change="getTargetData"
-        ></v-select>
+        <v-row>
+          <v-select
+            v-model="selectedValue"
+            :items="viewSelectBoxData"
+            outlined
+            dense
+            class="ml-6 select-box"
+          ></v-select>
+          <v-btn class="ml-3" @click="getTargetData">apply</v-btn>
+        </v-row>
         <v-card-text>
           <v-row>
             <v-col cols="3">ID</v-col
@@ -185,6 +188,8 @@ export default defineComponent({
       }
     };
 
+    const selectedValue = ref("");
+
     const dialog2 = ref(false);
 
     const dialogData2: DataList = reactive({
@@ -201,8 +206,8 @@ export default defineComponent({
       dialog2.value = false;
     };
 
-    const getTargetData = (event: any) => {
-      const eventList = event.split("_");
+    const getTargetData = () => {
+      const eventList = selectedValue.value.split("_");
       apiResponse.data.forEach(function (element) {
         if (element.id === eventList[0]) {
           dialogData2.id = element.id;
@@ -243,6 +248,7 @@ export default defineComponent({
       getTargetData,
       closeDialog,
       closeDialog2,
+      selectedValue,
       viewData,
       viewSelectBoxData,
     };
@@ -265,5 +271,8 @@ export default defineComponent({
 }
 .v-select {
   width: 60%;
+}
+.select-box {
+  max-width: 60%;
 }
 </style>
