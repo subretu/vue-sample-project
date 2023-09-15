@@ -78,9 +78,53 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialog3" width="500">
+      <v-card>
+        <v-card-title class="headline"
+          >データ詳細
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="ml-1" color="black" dark v-bind="attrs" v-on="on">
+                mdi-help-circle-outline
+              </v-icon>
+            </template>
+            <span>これは選択されたデータの詳細を表示している画面です</span>
+          </v-tooltip></v-card-title
+        >
+        <v-row>
+          <v-select
+            :items="viewSelectBoxData"
+            outlined
+            dense
+            class="ml-6 select-box"
+            @change="getTargetData"
+          ></v-select>
+        </v-row>
+        <v-card-text>
+          <v-row>
+            <v-col cols="3">ID</v-col
+            ><v-col cols="9">{{ dialogData3.id }}</v-col></v-row
+          >
+          <v-divider />
+          <v-row>
+            <v-col cols="3">日付</v-col
+            ><v-col cols="9">{{ dialogData3.label }}</v-col></v-row
+          ><v-divider />
+          <v-row>
+            <v-col cols="3">合計値</v-col
+            ><v-col cols="9">{{ dialogData3.data }}</v-col></v-row
+          >
+        </v-card-text>
+        <v-card-actions class="pa-6">
+          <v-spacer />
+          <v-btn @click="closeDialog3">Close Dialog</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="10"
-        ><v-btn class="mb-2" @click="openDialog2">モーダルを開く</v-btn>
+        ><v-btn class="mb-2" @click="openDialog2">モーダル</v-btn>
+        <v-btn class="mb-2 ml-2" @click="openDialog3">モーダル2</v-btn>
         <v-sheet color="white" elevation="1">
           <v-data-table
             :headers="headers"
@@ -220,6 +264,39 @@ export default defineComponent({
       }
     };
 
+    const dialog3 = ref(false);
+
+    const dialogData3: DataList = reactive({
+      id: "",
+      label: "",
+      data: 0,
+    });
+
+    const openDialog3 = () => {
+      dialog3.value = true;
+    };
+
+    const closeDialog3 = (): void => {
+      dialog3.value = false;
+    };
+
+    const getTargetData = (event: any) => {
+      if (event === "") {
+        dialogData3.id = "";
+        dialogData3.label = "";
+        dialogData3.data = 0;
+      }
+      const eventList = event.split("_");
+      apiResponse.data.forEach(function (element) {
+        if (element.id === eventList[0]) {
+          dialogData3.id = element.id;
+          dialogData3.label = element.label;
+          dialogData3.data = element.data;
+          return;
+        }
+      });
+    };
+
     // モーダルの開閉を監視
     watch(
       () => dialog.value,
@@ -246,6 +323,20 @@ export default defineComponent({
       }
     );
 
+    watch(
+      () => dialog3.value,
+      async () => {
+        if (dialog3.value) {
+          await selectBoxData();
+        } else {
+          dialogData3.id = "";
+          dialogData3.label = "";
+          dialogData3.data = 0;
+          viewSelectBoxData.value = [];
+        }
+      }
+    );
+
     onMounted(async () => {
       await displayData();
     });
@@ -254,13 +345,18 @@ export default defineComponent({
       headers,
       dialog,
       dialog2,
+      dialog3,
       dialogData,
       dialogData2,
+      dialogData3,
       openDialog,
       openDialog2,
+      openDialog3,
       applySelectData,
+      getTargetData,
       closeDialog,
       closeDialog2,
+      closeDialog3,
       selectedValue,
       viewData,
       viewSelectBoxData,
