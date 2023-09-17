@@ -98,6 +98,7 @@
             dense
             class="ml-6 select-box"
             @change="getTargetData"
+            v-model="selectedValue"
           ></v-select>
         </v-row>
         <v-card-text>
@@ -319,6 +320,7 @@ export default defineComponent({
           dialogData2.label = "";
           dialogData2.data = 0;
           viewSelectBoxData.value = [];
+          selectedValue.value = "";
         }
       }
     );
@@ -333,6 +335,7 @@ export default defineComponent({
           dialogData3.label = "";
           dialogData3.data = 0;
           viewSelectBoxData.value = [];
+          selectedValue.value = "";
         }
       }
     );
