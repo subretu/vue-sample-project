@@ -101,7 +101,7 @@
             v-model="selectedValue"
           ></v-select>
         </v-row>
-        <v-card-text>
+        <v-card-text v-if="selectedValue">
           <v-row>
             <v-col cols="3">ID</v-col
             ><v-col cols="9">{{ dialogData3.id }}</v-col></v-row
