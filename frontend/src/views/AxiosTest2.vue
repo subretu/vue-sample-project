@@ -122,16 +122,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="dialog4" width="500">
+      <v-card>
+        <v-card-title class="headline">選択データ</v-card-title>
+        <v-card-text class="subtitle">選択ID一覧</v-card-text>
+        <v-card-text>
+          <div v-for="item in selectedItem" :key="item">
+            {{ item.id }}
+          </div>
+        </v-card-text>
+        <v-card-actions class="pa-6">
+          <v-spacer />
+          <v-btn @click="closeDialog4">Close Dialog</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="10"
         ><v-btn class="mb-2" @click="openDialog2">モーダル</v-btn>
         <v-btn class="mb-2 ml-2" @click="openDialog3">モーダル2</v-btn>
+        <v-btn class="mb-2 ml-2" @click="openDialog4">モーダル3</v-btn>
         <v-sheet color="white" elevation="1">
           <v-data-table
             :headers="headers"
             :items="viewData"
             hide-default-footer
             class="elevation-1"
+            show-select
+            v-model="selectedItem"
           >
             <template v-slot:[`item.id`]="{ item }">
               <td @click="openDialog(item)" class="link td-cell">
@@ -298,6 +316,18 @@ export default defineComponent({
       });
     };
 
+    const selectedItem = ref([]);
+
+    const dialog4 = ref(false);
+
+    const openDialog4 = () => {
+      dialog4.value = true;
+    };
+
+    const closeDialog4 = (): void => {
+      dialog4.value = false;
+    };
+
     // モーダルの開閉を監視
     watch(
       () => dialog.value,
@@ -349,20 +379,24 @@ export default defineComponent({
       dialog,
       dialog2,
       dialog3,
+      dialog4,
       dialogData,
       dialogData2,
       dialogData3,
       openDialog,
       openDialog2,
       openDialog3,
+      openDialog4,
       applySelectData,
       getTargetData,
       closeDialog,
       closeDialog2,
       closeDialog3,
+      closeDialog4,
       selectedValue,
       viewData,
       viewSelectBoxData,
+      selectedItem,
     };
   },
 });
@@ -386,5 +420,8 @@ export default defineComponent({
 }
 .select-box {
   max-width: 60%;
+}
+.subtitle {
+  font-size: 18px;
 }
 </style>
