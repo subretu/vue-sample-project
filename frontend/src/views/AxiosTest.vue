@@ -148,7 +148,7 @@ export default {
           _self.dragNdrop.splice(
             newIndex,
             0,
-            ..._self.dragNdrop.splice(oldIndex, 1)
+            ..._self.dragNdrop.splice(oldIndex, 1),
           );
         },
       });

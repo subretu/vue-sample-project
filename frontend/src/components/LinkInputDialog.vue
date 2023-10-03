@@ -94,7 +94,7 @@ export default defineComponent({
           state.inputtext1 = "";
           state.inputtext2 = "";
         }
-      }
+      },
     );
 
     return {

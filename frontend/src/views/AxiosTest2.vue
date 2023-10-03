@@ -241,7 +241,7 @@ export default defineComponent({
       viewSelectBoxData.value.push("");
       for (const elem of data) {
         viewSelectBoxData.value.push(
-          elem.id + "_" + elem.label + "_" + elem.data
+          elem.id + "_" + elem.label + "_" + elem.data,
         );
       }
     };
@@ -337,7 +337,7 @@ export default defineComponent({
           dialogData.label = "";
           dialogData.data = 0;
         }
-      }
+      },
     );
 
     watch(
@@ -352,7 +352,7 @@ export default defineComponent({
           viewSelectBoxData.value = [];
           selectedValue.value = "";
         }
-      }
+      },
     );
 
     watch(
@@ -367,7 +367,7 @@ export default defineComponent({
           viewSelectBoxData.value = [];
           selectedValue.value = "";
         }
-      }
+      },
     );
 
     onMounted(async () => {
