@@ -85,3 +85,70 @@ def get_member_name_data(conn, cur, id):
     cur.execute(f"select name from members where member_id = {id};")
     rows = cur.fetchall()
     return rows
+
+
+def get_user(conn, cur, id):
+    cur.execute(
+        """
+        select
+        a.user_name
+        ,a.user_id
+        ,b.company_name
+        from
+        public.user as a
+        inner join
+        company as b
+        on
+            a.company_id = b.id
+        ;
+        """
+    )
+    rows = cur.fetchall()
+    return rows
+
+
+def get_user_role(conn, cur, id):
+    cur.execute(
+        """
+    with join_company as(
+      select
+        a.user_name
+        ,b.company_name
+        ,a.user_id
+        ,a.company_id
+      from
+        public.user as a
+        inner join
+        company as b
+        on
+          a.company_id = b.id
+    ),
+    join_factory as(
+      select
+        a.user_id
+        ,b.factory_id
+        ,b.factory_name
+      from
+        join_company as a
+        inner join
+        factory as b
+        on
+          a.company_id = b.company_id
+    )
+    select
+      a.user_id
+      ,a.factory_name
+      ,b.role
+    from
+      join_factory as a
+      inner join
+      role as b
+      on
+        a.user_id = b.user_id
+        and
+        a.factory_id = b.factory_id
+    ;
+    """
+    )
+    rows = cur.fetchall()
+    return rows

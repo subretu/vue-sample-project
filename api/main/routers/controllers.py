@@ -9,13 +9,31 @@ from main.query import (
     insert_data,
     get_json_data,
     get_member_name_data,
+    get_user,
+    get_user_role,
 )
 from main.logger.my_logger import logging_function, set_logger
+from dataclasses import dataclass, asdict
+import psycopg2.extras
 
 
 logger = set_logger("uvicorn")
 
 router = APIRouter()
+
+
+@dataclass()
+class UserList:
+    user_name: str
+    user_id: int
+    company_name: str
+
+
+@dataclass()
+class RoleList:
+    user_id: int
+    factory_name: str
+    role: str
 
 
 @router.get("/day")
@@ -127,3 +145,40 @@ def get_member_name(request: Request, id):
         raise HTTPException(status_code=400, detail="存在しないIDです。")
 
     return JSONResponse(content=result_json)
+
+
+@router.get("/userinfo")
+@logging_function(logger)
+def get_user_info(request: Request):
+    conn = get_connection()
+    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+    # ユーザー情報を格納
+    result_get_user = [UserList(**x) for x in get_user(cur)]
+    user_list = []
+    for item in result_get_user:
+        user_list.append(asdict(item))
+
+    # ロール情報を格納
+    result_get_user_role = [RoleList(**x) for x in get_user_role(cur)]
+    role_list = []
+    for item in result_get_user_role:
+        role_list.append(asdict(item))
+
+    response_data = []
+
+    for row_a in user_list:
+        user_id_a = row_a["user_id"]
+        row_a.setdefault("role", {})
+
+        for row_b in role_list:
+            if row_b["user_id"] == user_id_a:
+                if row_b["factory_name"] not in row_a["role"]:
+                    row_a["role"][row_b["factory_name"]] = row_b["role"]
+
+        response_data.append(row_a)
+
+    cur.close()
+    conn.close()
+
+    return JSONResponse(content=response_data)
