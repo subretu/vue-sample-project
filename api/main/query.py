@@ -87,7 +87,7 @@ def get_member_name_data(conn, cur, id):
     return rows
 
 
-def get_user(conn, cur, id):
+def get_user(cur):
     cur.execute(
         """
         select
@@ -107,7 +107,7 @@ def get_user(conn, cur, id):
     return rows
 
 
-def get_user_role(conn, cur, id):
+def get_user_role(cur):
     cur.execute(
         """
     with join_company as(
