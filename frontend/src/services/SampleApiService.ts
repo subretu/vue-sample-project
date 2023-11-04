@@ -25,6 +25,10 @@ class SampleApiService {
   get_member_name(id: any): Promise<any> {
     return http.get(`/get_member/${id}`);
   }
+
+  get_all_member(): Promise<any> {
+    return http.get("/all_member");
+  }
 }
 
 export default new SampleApiService();

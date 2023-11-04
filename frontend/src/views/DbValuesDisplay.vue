@@ -56,11 +56,46 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-sheet color="white" elevation="1" class="pa-2">
+          <h3 class="mb-2" align="left">Member ID</h3>
+          <v-row
+            v-for="(input, index) in state.inputsFromDb"
+            :key="index"
+            class="mb-n8"
+          >
+            <v-col cols="5">
+              <v-text-field
+                label="入力してください。"
+                outlined
+                dense
+                class="input-text"
+                v-model="input.member_id"
+                @input="changeReadyButton(index)"
+                :rules="[limitLengthValidation]"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="5">
+              <v-text-field
+                outlined
+                dense
+                class="input-text"
+                v-model="input.name"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-btn fab depressed class="mt-6" @click="addInputFromDBForm()">
+            <v-icon> mdi-plus-circle </v-icon>
+          </v-btn>
+        </v-sheet>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from "@vue/composition-api";
+import { defineComponent, reactive, onMounted } from "@vue/composition-api";
 import SampleApiService from "../services/SampleApiService";
 
 export default defineComponent({
@@ -68,11 +103,13 @@ export default defineComponent({
   setup() {
     const state = reactive<{
       inputs: { text1: string; text2: string }[];
+      inputsFromDb: { member_id: string; name: string }[];
       linkings: { linking: boolean }[];
       buttonTexts: string[];
       dbConnectionStatus: { success: boolean | null; fail: boolean | null }[];
     }>({
       inputs: [{ text1: "", text2: "" }],
+      inputsFromDb: [],
       linkings: [{ linking: false }],
       buttonTexts: ["DB連携開始"],
       dbConnectionStatus: [{ success: null, fail: null }],
@@ -108,6 +145,21 @@ export default defineComponent({
         });
     };
 
+    const callGetAllMember = () => {
+      return SampleApiService.get_all_member();
+    };
+
+    const getAllMember = async () => {
+      const response = callGetAllMember();
+      response
+        .then((success) => {
+          state.inputsFromDb = success.data;
+        })
+        .catch((e) => {
+          console.log(JSON.parse(e.request.response).detail);
+        });
+    };
+
     // ボタンの表示を変更
     const changeReadyButton = (index: number) => {
       state.buttonTexts[index] = "DB連携開始";
@@ -123,6 +175,11 @@ export default defineComponent({
       state.buttonTexts.push("DB連携開始");
     };
 
+    // 入力フォームを追加する
+    const addInputFromDBForm = () => {
+      state.inputsFromDb.push({ member_id: "", name: "" });
+    };
+
     // バリデーションを通過かつ入力があればボタンをクリック可能
     const mytext = (index: number) => {
       return (
@@ -131,6 +188,10 @@ export default defineComponent({
       );
     };
 
+    onMounted(async () => {
+      await getAllMember();
+    });
+
     return {
       state,
       mytext,
@@ -138,6 +199,7 @@ export default defineComponent({
       getMemberName,
       changeReadyButton,
       addInputForm,
+      addInputFromDBForm,
     };
   },
 });

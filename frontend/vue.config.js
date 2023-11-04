@@ -22,6 +22,9 @@ module.exports = defineConfig({
       "/get_member": {
         target: "http://localhost:8000",
       },
+      "/all_member": {
+        target: "http://localhost:8000",
+      },
     },
   },
   publicPath: "./",
